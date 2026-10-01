@@ -1,0 +1,4 @@
+.next
+node_modules
+.docs-sync-tmp
+docker-compose.yml
