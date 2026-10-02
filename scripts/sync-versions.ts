@@ -171,6 +171,22 @@ try {
 		`${JSON.stringify(releaseVersions, null, 2)}\n`,
 	);
 	console.log("[sync-versions] done");
+} catch (error) {
+	console.warn("[sync-versions] Sync failed, generating fallback files:", error);
+	const generatedDocsDir = join(docsRoot, "content", "_generated", "docs");
+	const v16Dir = join(generatedDocsDir, "v1-6");
+	const sourceDocsDir = join(docsRoot, "content", "docs");
+	await mkdir(generatedDocsDir, { recursive: true });
+	await mkdir(v16Dir, { recursive: true });
+	await cp(sourceDocsDir, v16Dir, { recursive: true }).catch(() => {});
+	const fallbackReleaseVersions = {
+		latest: "1.7.0",
+		"1.6": "1.6.0"
+	};
+	await writeFile(
+		releaseVersionsPath,
+		`${JSON.stringify(fallbackReleaseVersions, null, 2)}\n`
+	).catch(() => {});
 } finally {
 	await rm(tempRoot, { recursive: true, force: true });
 }

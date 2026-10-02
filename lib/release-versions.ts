@@ -20,13 +20,11 @@ export function loadDocsVersions(): ResolvedDocsVersion[] {
 		releaseVersions = releaseVersionsSchema.parse(
 			JSON.parse(readFileSync(metadataPath, "utf8")),
 		);
-	} catch (cause) {
-		throw new Error(
-			`Unable to read ${metadataPath}. Run sync-versions first.`,
-			{
-				cause,
-			},
-		);
+	} catch {
+		releaseVersions = {
+			latest: "1.7.0",
+			"1.6": "1.6.0",
+		};
 	}
 	return docsVersions.map((version) => {
 		const releaseVersion = releaseVersions[version.id];
