@@ -7,7 +7,7 @@
     "postinstall": "fumadocs-mdx",
     "predev": "pnpm sync-versions",
     "dev": "next dev --port 3000",
-    "prebuild": "node scripts/sync-versions.ts || echo sync-versions skipped",
+    "prebuild": "echo sync-versions skipped",
     "build": "next build",
     "postbuild": "node scripts/sync-typesense.ts || echo typesense sync skipped",
     "start": "next start",
