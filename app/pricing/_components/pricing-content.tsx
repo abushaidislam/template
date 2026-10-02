@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-const proCheckoutHref = `https://dash.better-auth.com/sign-in?callbackUrl=${encodeURIComponent(
+const proCheckoutHref = `https://dash.qodewk.dev/sign-in?callbackUrl=${encodeURIComponent(
 	"/?redirectTo=/settings/billing",
 )}`;
 
@@ -47,7 +47,7 @@ const tiers: readonly Tier[] = [
 		],
 		cta: {
 			label: "Get Started",
-			href: "https://dash.better-auth.com/sign-in",
+			href: "https://dash.qodewk.dev/sign-in",
 		},
 		highlighted: false,
 	},

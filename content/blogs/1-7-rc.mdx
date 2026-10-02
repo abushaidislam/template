@@ -36,13 +36,13 @@ This is the biggest area of the release. The OAuth provider grows from "it issue
 * **Forced re-login:** `max_age` is now honored instead of ignored.
 * **Consistent introspection:** opaque tokens return the same claims as JWTs, and a separate API service can introspect a token issued to another client.
 * **Protocol-safe ID tokens:** custom claims can no longer overwrite reserved protocol claims such as issuer, subject, and audience.
-* **Self-service and machine clients:** a backend registers without a logged-in user using a pre-shared token, and **Client ID Metadata Documents** (`@better-auth/cimd`) let a client identify itself by a hosted URL, which is how MCP clients connect without being registered ahead of time. Real MCP clients like Claude and Codex now keep the authentication method they register with, confidential by default rather than forced to public.
+* **Self-service and machine clients:** a backend registers without a logged-in user using a pre-shared token, and **Client ID Metadata Documents** (`@qodewk/cimd`) let a client identify itself by a hosted URL, which is how MCP clients connect without being registered ahead of time. Real MCP clients like Claude and Codex now keep the authentication method they register with, confidential by default rather than forced to public.
 * **Device authorization for OAuth clients:** registered CLIs, smart TVs, and other limited-input clients can ask the user to approve access in a browser, then exchange the device code for scoped, resource-bound OAuth tokens.
 * **Request specific user details:** a client can ask for individual user claims through the standard `claims.userinfo` parameter, and the request becomes part of the user's consent.
 * **An extension surface:** `extendOAuthProvider` lets a companion plugin add grant types, client-authentication methods, discovery metadata, and claims without changing core.
 * **Conformance polish:** standard `{ error, error_description }` envelopes, `no-store` on credential responses, an `at_hash` claim on ID tokens, form-encoded requests, and an optional refresh-retry window for clients.
 
-The old `oidcProvider` plugin, deprecated in 1.6, is removed. Move OpenID provider setups to `@better-auth/oauth-provider`.
+The old `oidcProvider` plugin, deprecated in 1.6, is removed. Move OpenID provider setups to `@qodewk/oauth-provider`.
 
 ***
 
@@ -119,12 +119,12 @@ These setups were impossible, broken, or unsafe before, and work now.
 Drizzle ORM v1 is now in release candidate, bringing its new relations API. Qodewk supports it through a new adapter entry point, so the generated auth relations slot in alongside your app's own relations.
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth/minimal";
-import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2"; // [!code highlight]
+import { Qodewk } from "qodewk/minimal";
+import { drizzleAdapter } from "@qodewk/drizzle-adapter/relations-v2"; // [!code highlight]
 import { db } from "./db";
 import * as schema from "./schema";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   database: drizzleAdapter(db, { provider: "pg", schema }),
 });
 ```
@@ -135,7 +135,7 @@ export const auth = betterAuth({
 
 ### Built-in i18n for 22 languages
 
-`@better-auth/i18n` ships built-in translations for 22 languages, and the English fallback is fixed. Drop it in to localize Qodewk's user-facing messages without maintaining your own translation table.
+`@qodewk/i18n` ships built-in translations for 22 languages, and the English fallback is fixed. Drop it in to localize Qodewk's user-facing messages without maintaining your own translation table.
 
 ***
 
@@ -166,9 +166,9 @@ export const auth = betterAuth({
 | Back-channel logout revokes session-bound tokens          | Run the schema migration, expect signed-out tokens to become inactive, and audit logout URIs for public HTTPS without credentials or fragments.      |
 | Generic OAuth uses the social-provider path               | Update sign-in calls, link calls, callback URLs, and client plugins.                                                                                 |
 | Custom social providers use one identity-token verifier   | Replace a provider's `verifyIdToken` method with an `idToken` config.                                                                                |
-| The old `oidcProvider` plugin is removed                  | Move provider setups to `@better-auth/oauth-provider`.                                                                                               |
+| The old `oidcProvider` plugin is removed                  | Move provider setups to `@qodewk/oauth-provider`.                                                                                               |
 | OAuth Provider removes `silenceWarnings`                  | Delete `silenceWarnings` from `oauthProvider()` configuration.                                                                                       |
-| MCP moves to `@better-auth/mcp`                           | Update imports, endpoint paths, helper names, config shape, and schema.                                                                              |
+| MCP moves to `@qodewk/mcp`                           | Update imports, endpoint paths, helper names, config shape, and schema.                                                                              |
 | SAML defaults and config change                           | Update removed fields, update callback URLs, and review IdP-initiated flows.                                                                         |
 | SCIM requires full reprovisioning                         | Stop provisioning, review legacy identities, replace the incompatible tables and credentials, then run a complete User and Group provisioning cycle. |
 | Proxy headers are not trusted by default                  | Opt in with `advanced.trustedProxyHeaders: true` only when your proxy requires it.                                                                   |
@@ -233,15 +233,15 @@ export const auth = betterAuth({
 | Private-key-JWT client auth            | Authenticate OAuth provider and SSO clients with a signed JWT (RFC 7523) instead of a shared secret. |
 | SCIM groups                            | Manage SCIM groups with durable lifecycle endpoints.                                                 |
 | Request specific user claims           | Ask for individual user details with the `claims.userinfo` parameter.                                |
-| Drizzle Relations v2 support           | A new `@better-auth/drizzle-adapter/relations-v2` entry point merges with your app's relations.      |
+| Drizzle Relations v2 support           | A new `@qodewk/drizzle-adapter/relations-v2` entry point merges with your app's relations.      |
 | Sessions and tools                     | Use public-key session verification, `hydrateSession`, i18n, and `create-admin`.                     |
 
 ### Deprecations and removals
 
 | Change                                     | Replacement                          |
 | ------------------------------------------ | ------------------------------------ |
-| `oidcProvider` plugin removed              | Use `@better-auth/oauth-provider`.   |
-| MCP plugin path moved out of `better-auth` | Use `@better-auth/mcp`.              |
+| `oidcProvider` plugin removed              | Use `@qodewk/oauth-provider`.   |
+| MCP plugin path moved out of `qodewk` | Use `@qodewk/mcp`.              |
 | Generic OAuth client APIs changed          | Use the standard social client APIs. |
 
 ***
@@ -250,10 +250,10 @@ export const auth = betterAuth({
 
 Because this release carries large changes, we're shipping it as a release candidate first, so there's a window to migrate. We'll keep watching feedback and release the stable 1.7 from there.
 
-Install it from the `rc` tag, and do the same for any `@better-auth/*` packages you use:
+Install it from the `rc` tag, and do the same for any `@qodewk/*` packages you use:
 
 ```package-install
-better-auth@rc
+qodewk@rc
 ```
 
 Before applying the 1.7 schema, complete any manual preparation for account identities, OAuth clients, SCIM, and Device Authorization. Then use `npx auth@rc migrate` with the built-in Kysely adapter, or run `npx auth@rc generate` and apply the result through your Drizzle, Prisma, or custom migration workflow. The unscoped `npx auth` still resolves the 1.6 CLI until 1.7 is stable. For the required order and detailed steps, see the [1.7 upgrade guide](/docs/guides/1-7-upgrade-guide).
@@ -262,8 +262,8 @@ Before applying the 1.7 schema, complete any manual preparation for account iden
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Basic Qodewk setup                        | Usually the `@rc` install and reviewed schema changes                                                        |
 | Social login, generic OAuth, One Tap, or SIWE  | New login-client behavior, including Microsoft `oid`, addressless SIWE nonces, and Google One Tap            |
-| `@better-auth/oauth-provider`                  | Client-data preparation plus resources, DPoP, back-channel logout, `max_age`, and safer OAuth checks         |
-| MCP                                            | A package move to `@better-auth/mcp`, official v2 clients or servers, new endpoint paths, and schema changes |
+| `@qodewk/oauth-provider`                  | Client-data preparation plus resources, DPoP, back-channel logout, `max_age`, and safer OAuth checks         |
+| MCP                                            | A package move to `@qodewk/mcp`, official v2 clients or servers, new endpoint paths, and schema changes |
 | SAML or SCIM                                   | Safer SAML and SSO checks, plus a full SCIM cutover and User and Group reprovisioning                        |
 | Device Authorization                           | Indexed, bounded codes; optionally add `oauthDeviceAuthorization()` with `oauthClientId` and `resources`     |
 | Magic links or email OTP                       | Safer handling for accounts whose email was never confirmed                                                  |

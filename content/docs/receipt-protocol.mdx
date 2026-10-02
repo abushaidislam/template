@@ -1,0 +1,282 @@
+---
+title: Receipt Protocol
+description: Specification for Qodewk Digital Receipts
+---
+
+## Purpose
+
+The Receipt Protocol is the long-term interoperability layer of Qodewk.
+
+It must work for:
+
+- CLI
+- local UI
+- GitHub Actions
+- cloud API
+- future desktop app
+- third-party provider adapters
+
+## Design rules
+
+1. Version every receipt.
+2. Make the format provider-neutral.
+3. Separate observed, estimated, and verified fields.
+4. Avoid source-code content fields by default.
+5. Keep receipts serializable as JSON.
+6. Make receipts immutable once published; create a new version/event instead of silently mutating history.
+
+## Formal Protocol Specification (Receipt v1.0)
+
+### TypeScript & Zod Schema Definition
+
+The canonical schema implemented in `packages/protocol`:
+
+```ts
+import { z } from "zod";
+
+export const AttributionModeSchema = z.enum([
+  "observed",
+  "estimated",
+  "imported",
+  "verified",
+  "unknown"
+]);
+
+export const ProviderSessionSchema = z.object({
+  provider: z.string(), // e.g. "anthropic", "openai", "cursor", "copilot"
+  model: z.string().optional(), // e.g. "claude-3-7-sonnet", "claude-opus-4"
+  tokens: z.object({
+    input: z.number().int().nonnegative().default(0),
+    output: z.number().int().nonnegative().default(0),
+    cached: z.number().int().nonnegative().default(0)
+  }),
+  cost: z.number().nonnegative(),
+  confidence: z.number().min(0).max(1),
+  mode: AttributionModeSchema
+});
+
+export const ReceiptV1Schema = z.object({
+  version: z.literal("1.0"),
+  receipt: z.object({
+    id: z.string().startsWith("rec_"),
+    createdAt: z.string().datetime(),
+    sessionStartedAt: z.string().datetime().optional(),
+    sessionEndedAt: z.string().datetime().optional(),
+    contentHash: z.string().length(64) // SHA-256 of canonical payload
+  }),
+  repository: z.object({
+    repoHash: z.string().length(64), // Salted SHA-256 of remote URL/path
+    projectAlias: z.string().min(1).max(100),
+    branch: z.string(),
+    branchHash: z.string().length(64).optional(),
+    headSha: z.string().length(40),
+    baseSha: z.string().length(40).optional(),
+    commitsCount: z.number().int().nonnegative().default(1)
+  }),
+  mutation: z.object({
+    files: z.number().int().nonnegative(),
+    insertions: z.number().int().nonnegative(),
+    deletions: z.number().int().nonnegative(),
+    netLines: z.number().int(),
+    renames: z.number().int().nonnegative().default(0),
+    languages: z.record(z.string(), z.number()).optional() // e.g. { "TypeScript": 85, "Markdown": 15 }
+  }),
+  ai: z.object({
+    provider: z.string(),
+    model: z.string().optional(),
+    tokens: z.object({
+      input: z.number().int().nonnegative(),
+      output: z.number().int().nonnegative(),
+      cached: z.number().int().nonnegative().default(0)
+    }),
+    cost: z.number().nonnegative(),
+    mode: AttributionModeSchema,
+    confidence: z.number().min(0).max(1),
+    sessions: z.array(ProviderSessionSchema).optional()
+  }),
+  privacy: z.object({
+    sourceExcluded: z.literal(true), // Cryptographic assertion that code is omitted
+    isPublic: z.boolean().default(true),
+    anonymizeBranch: z.boolean().default(false)
+  })
+});
+
+export type ReceiptV1 = z.infer<typeof ReceiptV1Schema>;
+```
+
+## Example Canonical Receipt
+
+```json
+{
+  "version": "1.0",
+  "receipt": {
+    "id": "rec_01J8Y29K4Z00ABC123DEF456",
+    "createdAt": "2026-09-26T20:00:00Z",
+    "sessionStartedAt": "2026-09-26T18:45:00Z",
+    "sessionEndedAt": "2026-09-26T20:00:00Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "repository": {
+    "repoHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+    "projectAlias": "devhub",
+    "branch": "feature/auth-migration",
+    "headSha": "7f8b2c1e4d3a5f6e7d8c9b0a1f2e3d4c5b6a7f8e",
+    "baseSha": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b",
+    "commitsCount": 3
+  },
+  "mutation": {
+    "files": 14,
+    "insertions": 381,
+    "deletions": 72,
+    "netLines": 309,
+    "renames": 1,
+    "languages": {
+      "TypeScript": 82,
+      "CSS": 14,
+      "Markdown": 4
+    }
+  },
+  "ai": {
+    "provider": "anthropic",
+    "model": "claude-opus-4",
+    "tokens": {
+      "input": 120000,
+      "output": 63000,
+      "cached": 45000
+    },
+    "cost": 2.41,
+    "mode": "estimated",
+    "confidence": 0.74,
+    "sessions": [
+      {
+        "provider": "anthropic",
+        "model": "claude-opus-4",
+        "tokens": { "input": 120000, "output": 63000, "cached": 45000 },
+        "cost": 2.41,
+        "confidence": 0.74,
+        "mode": "estimated"
+      }
+    ]
+  },
+  "privacy": {
+    "sourceExcluded": true,
+    "isPublic": true,
+    "anonymizeBranch": false
+  }
+}
+```
+
+## Suggested field semantics
+
+### `repository`
+
+Never store raw source code. Prefer hashed repository identity and hashed branch identity for cloud receipts.
+
+### `mutation`
+
+Observed Git metrics:
+
+- files changed
+- insertions
+- deletions
+- net lines
+- optionally rename count
+- optionally language distribution
+
+### `ai`
+
+Can contain:
+
+- provider
+- model
+- token counts
+- estimated or verified cost
+- confidence
+- attribution mode
+
+## Attribution mode enum
+
+```text
+observed
+estimated
+imported
+verified
+unknown
+```
+
+Suggested meaning:
+
+- `observed`: directly measured from local repository/provider telemetry
+- `estimated`: heuristically inferred
+- `imported`: imported from a provider artifact/export
+- `verified`: provider-reported value with clear billing basis
+- `unknown`: no trustworthy basis for the metric
+
+## Confidence
+
+Store `confidence` as a `0–1` number in the receipt. UI may show a percentage or Low/Medium/High band:
+
+```text
+0.00–0.39  Low
+0.40–0.69  Medium
+0.70–1.00  High
+```
+
+## Privacy-safe receipt
+
+A public receipt may contain:
+
+```text
+receipt id
+project alias
+branch alias or hash
+files changed
+insertions
+deletions
+languages
+provider/model
+estimated/verified usage
+cost
+confidence (0–1 in data; % or Low/Medium/High in UI)
+timestamp
+```
+
+It should not contain:
+
+```text
+source code
+diff body
+prompts
+AI transcript
+secrets
+.env values
+credentials
+file contents
+```
+
+## Versioning
+
+Use semantic schema versions:
+
+```text
+1.0
+1.1
+2.0
+```
+
+Backward-compatible optional fields can be added in minor versions. Breaking changes require a new major version.
+
+## Protocol boundary
+
+Provider adapters should translate provider-specific telemetry into the common receipt model rather than leaking provider-specific assumptions into the core Git engine.
+
+Example:
+
+```text
+Claude adapter -> ProviderUsage
+Cursor adapter -> ProviderUsage
+Copilot adapter -> ProviderUsage
+                     |
+                     v
+              common Receipt
+```

@@ -1,72 +1,56 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="public/branding/svg/better-auth-wordmark-light.svg" />
+# Qodewk
 
-  <source media="(prefers-color-scheme: light)" srcset="public/branding/svg/better-auth-wordmark-dark.svg" />
+Universal telemetry and digital receipt generator for the AI coding agent era.
 
-  <img alt="Qodewk" src="public/branding/svg/better-auth-wordmark-dark.svg" width="280" />
-</picture>
+`qodewk` analyzes git repositories and AI tool logs (Claude Code, Cursor, Copilot, Antigravity, etc.) to harvest telemetry, calculate token usage & cost estimations, and generate verifiable digital receipts for AI-assisted software development.
 
-### Website & Docs
+---
 
-The main website and documentation for [better-auth.com](https://better-auth.com)
+## Workspace Structure
 
-[![Website](https://img.shields.io/badge/better--auth.com-000?style=flat\&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNDUiIHZpZXdCb3g9IjAgMCA2MCA0NSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTAgMEgxNVYxNUgzMFYzMEgxNVY0NUgwVjMwVjE1VjBaTTQ1IDMwVjE1SDMwVjBINDVINjBWMTVWMzBWNDVINDVIMzBWMzBINDVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==\&logoColor=white)](https://better-auth.com)
-[![GitHub Stars](https://img.shields.io/github/stars/better-auth/better-auth?style=flat\&logo=github\&label=stars\&color=24292e)](https://github.com/better-auth/better-auth)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat)](LICENSE)
+This monorepo consists of the following core packages and documentation web application:
 
-***
+- **`packages/cli`** (`qodewk`): The official CLI tool for generating receipts, displaying interactive menus, and running telemetry commands.
+- **`packages/core`** (`@qodewk/core`): Core telemetry harvester, git analysis, and receipt generator logic.
+- **`packages/pricing`** (`@qodewk/pricing`): Token cost estimation models for LLM models (Anthropic, OpenAI, etc.).
+- **`packages/protocol`** (`@qodewk/protocol`): Types and schemas defining the Qodewk Receipt Protocol.
+- **`packages/action`**: GitHub Action integration for generating Qodewk receipts in CI workflows.
+- **`docs`** (root web app): Documentation & landing site built with Next.js 16, Fumadocs, and Tailwind CSS.
+
+---
 
 ## Quick Start
 
+### Web App & Docs Development
+
 ```bash
-# install
+# Install dependencies
 pnpm install
 
-# develop
+# Start development server
 pnpm dev
 ```
 
-Open **[localhost:3000](http://localhost:3000)** to preview.
+Open **[http://localhost:3000](http://localhost:3000)** to preview the site.
 
-## Stack
+### CLI Usage
 
-* **Framework**: Next.js 16 (App Router, Turbopack)
-* **Styling**: Tailwind CSS 4
-* **Animation**: Framer Motion
-* **Docs**: Fumadocs
-* **Icons**: Lucide React
-* **Fonts**: Geist Sans & Geist Mono
-
-## Structure
-
+```bash
+# Run CLI directly
+npx qodewk
 ```
-├─ app/
-│  ├─ page.tsx              # Home — hero + sign-in demo
-│  ├─ products/             # Products page
-│  ├─ blog/                 # Blog posts
-│  └─ docs/[[...slug]]/     # Documentation (MDX)
-│
-├─ components/
-│  ├─ landing/              # Marketing components
-│  ├─ docs/                 # Documentation components
-│  ├─ ui/                   # Shared primitives
-│  └─ icons/                # Brand icons & logo
-│
-├─ content/                 # MDX documentation files
-│
-├─ lib/
-│  ├─ source.ts             # Fumadocs content source
-│  └─ utils.ts              # Utilities
-│
-└─ public/
-   └─ branding/             # Logo assets (SVG + PNG)
-```
+
+---
 
 ## Scripts
 
-```bash
-pnpm dev          # Start dev server (Turbopack)
-pnpm build        # Production build
-pnpm start        # Serve production build
-pnpm lint:fix     # Lint & auto-fix with Biome
-```
+- `pnpm dev` - Start the Next.js development server
+- `pnpm build` - Build all packages and web application
+- `pnpm lint` - Run linter
+- `pnpm typecheck` - Run TypeScript typechecks across packages
+
+---
+
+## License
+
+MIT

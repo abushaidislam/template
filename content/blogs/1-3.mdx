@@ -16,7 +16,7 @@ We're excited to announce the release of Qodewk 1.3. This release includes a lot
 To upgrade, run:
 
 ```package-install
-npm install better-auth@1.3
+npm install qodewk@1.3
 ```
 
 ***
@@ -30,10 +30,10 @@ The SSO plugin has been moved to its own package and now supports both **OIDC** 
 👉 [Read the SSO docs](/docs/plugins/sso)
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth";
-import { sso } from "@better-auth/sso";
+import { Qodewk } from "qodewk";
+import { sso } from "@qodewk/sso";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     sso({
       oidc: {
@@ -42,7 +42,7 @@ export const auth = betterAuth({
       },
       saml: {
         entryPoint: "https://example.com/saml",
-        issuer: "better-auth-example",
+        issuer: "qodewk-example",
         certificate: "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
       },
       providersLimit: async (user) => {
@@ -71,9 +71,9 @@ Both OIDC and MCP plugins are production‑ready.
 👉 [Read MCP docs](/docs/plugins/mcp)
 
 ```ts title="auth.ts"
-import { mcp } from "better-auth/plugins";
+import { mcp } from "qodewk/plugins";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     mcp({
       loginPage: "/login",
@@ -91,10 +91,10 @@ The Stripe plugin is now stable and usage based pricing is coming very soon.
 👉 [Read Stripe docs](/docs/plugins/stripe)
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth";
-import { stripe } from "@better-auth/stripe";
+import { Qodewk } from "qodewk";
+import { stripe } from "@qodewk/stripe";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     stripe({
       // ...
@@ -110,9 +110,9 @@ Native support for **Sign‑In with Ethereum**.
 👉 [Read SIWE docs](/docs/plugins/siwe)
 
 ```ts title="auth.ts"
-import { siwe } from "better-auth/plugins";
+import { siwe } from "qodewk/plugins";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     siwe(),
   ],
@@ -126,9 +126,9 @@ export const auth = betterAuth({
 We’ve added providers for **Notion, Slack, Linear, and Faceit**.
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   socialProviders: {
     notion: { /* ... */ },
     slack: { /* ... */ },
@@ -149,11 +149,11 @@ Utilities for handling cookies in SvelteKit server actions.
 </Callout>
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth";
-import { sveltekitCookies } from "better-auth/svelte-kit";
+import { Qodewk } from "qodewk";
+import { sveltekitCookies } from "qodewk/svelte-kit";
 import { getRequestEvent } from "$app/server";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [sveltekitCookies(getRequestEvent)],
 });
 ```
@@ -163,7 +163,7 @@ export const auth = betterAuth({
 ### **Email Verification on Sign‑In**
 
 ```ts title="auth.ts"
-export const auth = betterAuth({
+export const auth = Qodewk({
   emailVerification: {
     sendOnSignIn: true, // sends a verification email on sign‑in if the user isn’t verified
   },
@@ -180,7 +180,7 @@ The organization plugin now supports members belonging to multiple teams.
 `teamId` has been removed from the `member` table. A new `teamMembers` table is required.
 
 ```ts title="auth.ts"
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     organization({
       // ...
@@ -190,8 +190,8 @@ export const auth = betterAuth({
 ```
 
 ```ts title="auth-client.ts"
-import { createAuthClient } from "better-auth/client";
-import { organizationClient } from "better-auth/client/plugins";
+import { createAuthClient } from "qodewk/client";
+import { organizationClient } from "qodewk/client/plugins";
 import { auth } from "./auth";
 
 export const authClient = createAuthClient({
@@ -207,7 +207,7 @@ export const authClient = createAuthClient({
 Add custom fields to `organization`, `member`, and `invitation` models.
 
 ```ts title="auth.ts"
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     organization({
       schema: {
@@ -233,7 +233,7 @@ Other new options:
 * OAuth token encryption options
 
 ```ts title="auth.ts"
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     genericOAuth({
       // ...
@@ -339,6 +339,6 @@ export const auth = betterAuth({
 ***
 
 A lot of refinements to make everything smoother, faster, and more reliable.
-👉 [Check the full changelog](https://github.com/better-auth/better-auth/releases/tag/v1.3.0)
+👉 [Check the full changelog](https://github.com/abushaidislam/Qodewk/releases/tag/v1.3.0)
 
 ***

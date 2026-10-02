@@ -27,9 +27,9 @@ describe("LLM routes", () => {
 	it("keeps the root index focused on discovery", () => {
 		const content = getRootLLMsIndex(docsVersions);
 
-		expect(content).toContain("https://better-auth.com/docs/llms.txt");
-		expect(content).toContain("https://better-auth.com/docs/1.6/llms.txt");
-		expect(content).toContain("https://mcp.better-auth.com/mcp");
+		expect(content).toContain("https://qodewk.dev/docs/llms.txt");
+		expect(content).toContain("https://qodewk.dev/docs/1.6/llms.txt");
+		expect(content).toContain("https://mcp.qodewk.dev/mcp");
 		expect(content).not.toContain("/llms.txt/docs/");
 	});
 
@@ -44,9 +44,9 @@ describe("LLM routes", () => {
 		expect(
 			getMarkdownPageUrl(
 				"/docs/introduction",
-				new URL("https://better-auth.com"),
+				new URL("https://qodewk.dev"),
 			),
-		).toBe("https://better-auth.com/docs/introduction.md");
+		).toBe("https://qodewk.dev/docs/introduction.md");
 		expect(getMarkdownPageUrl("/llms.txt")).toBe("/llms.txt");
 	});
 
@@ -178,6 +178,6 @@ interface ListUsers {}
 
 		expect(content).toContain("# Documentation Page Not Found");
 		expect(content).toContain("/docs/missing.md");
-		expect(content).toContain("https://better-auth.com/docs/llms.txt");
+		expect(content).toContain("https://qodewk.dev/docs/llms.txt");
 	});
 });

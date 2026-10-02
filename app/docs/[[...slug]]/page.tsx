@@ -56,7 +56,7 @@ export default async function Page({
 
 	const versionSource = docsVersionSources[version.id];
 	const contentRef = versionSource.commitSha ?? versionSource.editBranch;
-	const githubBase = `https://github.com/better-auth/better-auth/blob/${contentRef}/docs/content/docs`;
+	const githubBase = `https://github.com/abushaidislam/Qodewk/blob/${contentRef}/docs/content/docs`;
 	const markdownUrl = getMarkdownPageUrl(page.url);
 
 	// Keep every absolute /docs link scoped to the version being viewed.
@@ -73,8 +73,8 @@ export default async function Page({
 			}}
 			breadcrumb={{ enabled: false }}
 			editOnGithub={{
-				owner: "better-auth",
-				repo: "better-auth",
+				owner: "qodewk",
+				repo: "qodewk",
 				sha: versionSource.editBranch,
 				path: `docs/content/docs/${page.path}`,
 			}}

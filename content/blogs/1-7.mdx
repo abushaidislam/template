@@ -44,7 +44,7 @@ The main additions are:
 
 The provider can also be extended without changing its core. That is how the new MCP, Client ID Metadata Documents (CIMD), and device authorization features plug into the same OAuth system.
 
-If you still use the deprecated `oidcProvider` plugin, migrate to [`@better-auth/oauth-provider`](/docs/plugins/oauth-provider). The replacement provider existed before 1.7, and 1.7 removes the old plugin.
+If you still use the deprecated `oidcProvider` plugin, migrate to [`@qodewk/oauth-provider`](/docs/plugins/oauth-provider). The replacement provider existed before 1.7, and 1.7 removes the old plugin.
 
 ***
 
@@ -52,7 +52,7 @@ If you still use the deprecated `oidcProvider` plugin, migrate to [`@better-auth
 
 ### MCP moves to its own package
 
-MCP authentication now lives in its own package, [`@better-auth/mcp`](/docs/plugins/mcp). It uses the OAuth provider from this release, supports the MCP 2026-07-28 authorization profile, and works with version 2 of the official MCP TypeScript SDK.
+MCP authentication now lives in its own package, [`@qodewk/mcp`](/docs/plugins/mcp). It uses the OAuth provider from this release, supports the MCP 2026-07-28 authorization profile, and works with version 2 of the official MCP TypeScript SDK.
 
 The responsibilities are clear: Qodewk handles login, consent, and access tokens. The official MCP SDK handles the messages sent between an MCP client and server.
 
@@ -61,7 +61,7 @@ The new package keeps the existing stateless bearer-token model and makes it saf
 The package expands MCP authorization with:
 
 * **Updated discovery:** standard protected-resource information tells an MCP client where to sign in, which server the token is for, and which permissions are available.
-* **Client ID Metadata Documents:** [`@better-auth/cimd`](/docs/plugins/cimd) lets an MCP client identify itself with a document on its own website. Older clients can still use Dynamic Client Registration when you enable it.
+* **Client ID Metadata Documents:** [`@qodewk/cimd`](/docs/plugins/cimd) lets an MCP client identify itself with a document on its own website. Older clients can still use Dynamic Client Registration when you enable it.
 * **Tokens for the right server:** tokens are issued for one MCP server and rejected by a different server.
 * **Stronger local checks:** MCP keeps local token verification and now checks that the token was made for this specific server.
 * **Ask for more access when needed:** if a tool needs another permission, a compatible client can ask the user and try again.
@@ -162,7 +162,7 @@ Provider-started OpenID login can restart through a fresh protected login flow w
 
 ### Improvements across Qodewk
 
-* **More built-in translations:** `@better-auth/i18n` expands its catalog to 22 languages.
+* **More built-in translations:** `@qodewk/i18n` expands its catalog to 22 languages.
 * **Drizzle Relations v2:** generated Qodewk relations can be combined with the relations already in your application.
 * **Stable database joins:** existing database joins graduate from experimental status.
 * **Signed session cache:** services can verify cached sessions with a public key instead of sharing the signing secret.
@@ -193,8 +193,8 @@ The table below shows where to start. The [1.7 upgrade guide](/docs/guides/1-7-u
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Basic Qodewk setup                        | Upgrade all Qodewk packages together, then generate and review schema changes                     |
 | Social login, custom OAuth, One Tap, or SSO    | Review how existing accounts map to identities confirmed by each provider                              |
-| `@better-auth/oauth-provider`                  | Review saved clients and apply the database changes for protected APIs, stronger tokens, and logout    |
-| MCP                                            | Install `@better-auth/mcp`, update the integration, and apply the OAuth client database changes        |
+| `@qodewk/oauth-provider`                  | Review saved clients and apply the database changes for protected APIs, stronger tokens, and logout    |
+| MCP                                            | Install `@qodewk/mcp`, update the integration, and apply the OAuth client database changes        |
 | Device authorization                           | Apply the device-code database changes and choose between app sign-in and OAuth access                 |
 | SAML or SSO                                    | Review saved account identities, provider settings, certificates, and callback URLs                    |
 | SCIM                                           | Stop provisioning, replace the old setup, create new credentials, then send all Users and Groups again |
@@ -208,7 +208,7 @@ The table below shows where to start. The [1.7 upgrade guide](/docs/guides/1-7-u
 
 ## Migrating to v1.7
 
-Upgrade `better-auth` and every `@better-auth/*` package together:
+Upgrade `qodewk` and every `@qodewk/*` package together:
 
 ```package-install
 npx auth upgrade

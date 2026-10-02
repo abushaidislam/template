@@ -1,0 +1,171 @@
+---
+title: Growth & PLG
+description: Product-led growth and adoption strategies
+---
+
+## Product-led growth principle
+
+The receipt itself is the distribution mechanism.
+
+The loop should be:
+
+```text
+Developer ships code
+  -> Qodewk generates receipt
+  -> receipt is visually useful
+  -> developer shares it
+  -> recipient clicks receipt
+  -> recipient tries CLI
+  -> new developer generates a receipt
+```
+
+## Receipt Card Design & Visual Specification
+
+The card should evoke the visceral texture of a physical thermal paper receipt rather than a standard SaaS dashboard card.
+
+### Visual Architecture
+
+```text
++------------------------------------------------------+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\  <- Serrated Top Edge
+|                                                      |
+|                   Q O D E W K                        |
+|             *** PROOF OF SHIPMENT ***                |
+|                                                      |
+| ORDER #rec_01J8Y29K4Z00ABC      DATE: 2026-09-26     |
+| REPO:   devhub                  BRANCH: feat/auth    |
+|                                                      |
+| ==================================================== |
+| ITEMS CHANGED                                    QTY |
+| ---------------------------------------------------- |
+| Files Touched                                     14 |
+| Lines Inserted                                  +381 |
+| Lines Deleted                                    -72 |
+| Net Code Delta                                  +309 |
+| ---------------------------------------------------- |
+| AI TELEMETRY                                         |
+| Provider: Claude Code · Model: Opus 4                |
+| Input Tokens (Est. ~60% Cached)                 120K |
+| Output Tokens (Est.)                             63K |
+| Total Estimated Tokens                          183K |
+| ==================================================== |
+| ESTIMATED AI COST                           ~$2.41   |
+| CONFIDENCE: 74% (High)                               |
+| ==================================================== |
+|                                                      |
+|   ||| | ||||| ||| |||| |||||| |||| ||| ||||||| |||   |  <- Dynamic Barcode
+|   https://qodewk.dev/r/rec_01J8Y29K4Z00ABC           |
+|                                                      |
+|   [✓] Source code was never uploaded to Qodewk       |
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/  <- Serrated Bottom Edge
++------------------------------------------------------+
+```
+
+### Aesthetic & UI Design Tokens
+1. **Serrated Edges:** Top and bottom zig-zag tears generated via CSS `mask-image` or SVG path.
+2. **Typography:** Primary font is `JetBrains Mono` or `Geist Mono` with tabular numbers (`font-variant-numeric: tabular-nums`).
+3. **Themes:**
+   - **Classic Thermal Paper (Default):** Warm off-white (`#FBFBF9`), faint paper grain texture, deep charcoal/carbon ink (`#1A1A1A`).
+   - **Terminal Dark:** Deep obsidian (`#0D0E11`), crisp white text, subtle glowing emerald/cyan status indicator.
+4. **Interactive Action Bar (Web Page):**
+   - **[Copy PNG / Share]:** Generates client-side canvas blob to clipboard.
+   - **[Copy Markdown]:** Copies GitHub-formatted PR comment block.
+   - **[Download SVG/PNG]:** Direct high-res asset download for Twitter/LinkedIn.
+5. **Dynamic OpenGraph (`next/og`):** Serverless edge renderer producing 1200x630 pixel Twitter/X/LinkedIn preview image identical to the card.
+
+## Social formats
+
+Recommended export sizes:
+
+- X: 1200x675
+- LinkedIn: 1200x627
+- Discord/general: 1200x675
+
+## Achievement language
+
+Use factual or clearly derived phrasing:
+
+Good:
+
+- 14 files changed
+- 8 commits
+- ~$2.41 estimated AI cost
+- 309 net lines changed
+
+Avoid unsupported statements:
+
+- “AI wrote 71% of your code”
+- “You saved $18”
+- “This PR was 4x more productive”
+
+Unless the methodology and evidence actually support them.
+
+## GitHub PR integration
+
+GitHub Action should generate a concise comment:
+
+```text
+🤖 Qodewk
+
+Developer Receipt
+
+Files changed       12
+Insertions          +482
+Deletions           -129
+AI attribution      Unknown (no provider telemetry)
+AI cost             ~$1.83 estimated
+Tokens              ~142K estimated
+Confidence          0.42 (Medium)
+
+Source code was not uploaded to Qodewk.
+
+View receipt -> https://qodewk.dev/r/...
+```
+
+Do not show an AI-assisted percentage in MVP comments unless provider/session evidence supports it. The word `estimated` is mandatory for inferred cost and token values.
+
+## GitHub Action flow
+
+```text
+PR opened/synchronized
+      |
+      v
+checkout repository
+      |
+      v
+run Qodewk CLI
+      |
+      v
+compute privacy-safe metrics
+      |
+      v
+publish optional receipt
+      |
+      v
+comment PR
+```
+
+## Shareable URL
+
+Use opaque IDs:
+
+```text
+/r/7K3A2...
+```
+
+Not sequential IDs.
+
+## Retention strategy
+
+Free receipts can be public by default only if the user explicitly chooses to publish them. Private receipts should remain private.
+
+## Product loops after MVP
+
+- Daily receipt
+- Weekly Wrapped-style developer report
+- Team PR summary
+- README receipt badge
+- Discord bot
+- Slack daily standup
+- Notion activity page
+- GitHub profile activity card

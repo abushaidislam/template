@@ -1,0 +1,148 @@
+---
+title: Edge Cases
+description: Handling edge cases in telemetry collection
+---
+
+## 1. Large monorepos
+
+Risk:
+
+Thousands of files can make naive filesystem scans and AST parsing expensive.
+
+Mitigations:
+
+- incremental dirty-path tracking
+- Git-native change detection
+- file metadata cache
+- content hash cache
+- ignore generated/build directories
+- lazy AST parsing
+- language parser only for changed files
+- worker threads for CPU-heavy parsing in future
+
+## 2. Human vs AI code
+
+Git history alone cannot prove who generated a line of code.
+
+A commit author is not an AI attribution signal.
+
+Possible signals:
+
+- provider telemetry
+- agent session identifiers
+- editor telemetry
+- mutation burst patterns
+- timing
+- human edits after generation
+- tool-specific hooks
+
+Use categories:
+
+```text
+Human
+AI
+Mixed
+Unknown
+```
+
+And only produce a probability when evidence is sufficient:
+
+```text
+Estimated AI-assisted activity: 73%
+Confidence: 0.68 (Medium)
+```
+
+Store confidence as `0–1` in the receipt; render Low/Medium/High from that score in UI copy.
+
+## 3. Merge commits
+
+Avoid double counting by calculating merge receipts relative to the appropriate merge base and tracking already-accounted logical work.
+
+## 4. Squash merges
+
+Commit count changes radically after a squash. Therefore receipt identity should not depend on commit count alone.
+
+Use:
+
+- base SHA
+- head SHA
+- patch fingerprint
+- changed-tree fingerprint
+
+## 5. Rebases
+
+Rebases change commit IDs while preserving much of the patch content.
+
+Prefer patch/content lineage over exact SHA identity for deduplication.
+
+Potential technique:
+
+- normalize patch
+- compute patch fingerprint
+- compare patch IDs
+- map rebased work to a logical work unit
+
+## 6. Renames
+
+A simple insertion/deletion metric can misinterpret a pure rename.
+
+Record rename count separately when Git can identify it.
+
+## 7. Generated code
+
+Generated files can inflate productivity metrics.
+
+Support configurable exclusions for:
+
+```text
+generated/
+*.generated.*
+codegen/
+```
+
+## 8. Binary files
+
+Do not attempt line/token estimation for binary assets.
+
+Record:
+
+```text
+binaryFilesChanged
+```
+
+but exclude them from code-token estimates.
+
+## 9. Uncommitted work
+
+Uncommitted files are observable but less stable.
+
+Label receipt scope:
+
+```text
+working-tree
+staged
+committed
+PR-range
+```
+
+## 10. Detached HEAD
+
+Support detached HEAD in CI. Use commit SHA as primary identity when branch name is unavailable.
+
+## 11. Force pushes
+
+A remote branch can move backwards. Cloud history should append events rather than assume monotonic branch movement.
+
+## 12. Privacy edge cases
+
+File names, repository names and branch names can leak sensitive information. Public receipts should default to sanitized project aliases and counts.
+
+## 13. Agent kill-switch
+
+Universal enforcement is technically impossible without an agent/provider control plane. Keep enforcement adapters separate from telemetry.
+
+## 14. False precision
+
+This is the highest product-level risk.
+
+Never display an exact-looking dollar value without a verified data basis.

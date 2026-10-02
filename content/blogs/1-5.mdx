@@ -21,7 +21,7 @@ Starting with this release, the self-service SSO dashboard — which lets your e
 
 And soon, you’ll be able to host your Qodewk instance on our infrastructure as well, so you can own your auth at scale without worrying about infrastructure needs.
 
-Sign up now: [https://dash.better-auth.com/sign-in](https://dash.better-auth.com/sign-in) 🚀
+Sign up now: [https://dash.qodewk.dev/sign-in](https://dash.qodewk.dev/sign-in) 🚀
 
 To upgrade, run:
 
@@ -35,7 +35,7 @@ npx auth upgrade
 
 ### New Qodewk CLI
 
-We’re introducing a new standalone CLI: `npx auth`. This replaces the previous `@better-auth/cli` package, which will be deprecated in a future release.
+We’re introducing a new standalone CLI: `npx auth`. This replaces the previous `@qodewk/cli` package, which will be deprecated in a future release.
 
 ```bash
 npx auth init
@@ -62,10 +62,10 @@ npx auth generate --adapter drizzle
 
 The MCP plugin now ships a framework-agnostic remote auth client. If your MCP server is separate from your Qodewk instance, you can verify tokens and protect resources without duplicating auth logic.
 
-[👉 Read more about MCP authentication](https://www.better-auth.com/docs/plugins/mcp)
+[👉 Read more about MCP authentication](https://www.qodewk.dev/docs/plugins/mcp)
 
 ```tsx
-import { createMcpAuthClient } from "better-auth/plugins/mcp/client";
+import { createMcpAuthClient } from "qodewk/plugins/mcp/client";
 
 const mcpAuth = createMcpAuthClient({
     authURL: "<https://my-app.com/api/auth>",
@@ -84,7 +84,7 @@ const session = await mcpAuth.verifyToken(token);
 It also comes with built-in framework adapters for Hono and Express-like servers:
 
 ```tsx
-import { mcpAuthHono } from "better-auth/plugins/mcp/client/adapters";
+import { mcpAuthHono } from "qodewk/plugins/mcp/client/adapters";
 
 const middleware = mcpAuthHono(mcpAuth);
 ```
@@ -97,16 +97,16 @@ const middleware = mcpAuthHono(mcpAuth);
 
 ### OAuth 2.1 Provider
 
-The new `@better-auth/oauth-provider` plugin turns your Qodewk instance into a full OAuth 2.1 authorization server with OIDC compatibility. Issue access tokens, manage client registrations, and let third-party apps authenticate against your API — including MCP agents.
+The new `@qodewk/oauth-provider` plugin turns your Qodewk instance into a full OAuth 2.1 authorization server with OIDC compatibility. Issue access tokens, manage client registrations, and let third-party apps authenticate against your API — including MCP agents.
 
-[👉 Read more about the OAuth Provider](https://www.better-auth.com/docs/plugins/oauth-provider)
+[👉 Read more about the OAuth Provider](https://www.qodewk.dev/docs/plugins/oauth-provider)
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { jwt } from "better-auth/plugins";
-import { oauthProvider } from "@better-auth/oauth-provider";
+import { Qodewk } from "qodewk";
+import { jwt } from "qodewk/plugins";
+import { oauthProvider } from "@qodewk/oauth-provider";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         jwt(),
         oauthProvider({
@@ -137,20 +137,20 @@ Key features:
 
 Full desktop authentication support for Electron apps. The plugin handles the complete OAuth flow — opening the system browser, exchanging authorization codes via custom protocol, and managing cookies securely.
 
-[👉 Read more about Electron integration](https://www.better-auth.com/docs/integrations/electron)
+[👉 Read more about Electron integration](https://www.qodewk.dev/docs/integrations/electron)
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { electron } from "@better-auth/electron";
+import { Qodewk } from "qodewk";
+import { electron } from "@qodewk/electron";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [electron()],
 });
 ```
 
 ```tsx
-import { createAuthClient } from "better-auth/client";
-import { electronClient } from "@better-auth/electron/client";
+import { createAuthClient } from "qodewk/client";
+import { electronClient } from "@qodewk/electron/client";
 
 const client = createAuthClient({
     plugins: [
@@ -170,13 +170,13 @@ await client.requestAuth();
 
 The new i18n plugin provides type-safe error message translations with automatic locale detection from headers, cookies, or sessions.
 
-[👉 Read more about i18n](https://www.better-auth.com/docs/plugins/i18n)
+[👉 Read more about i18n](https://www.qodewk.dev/docs/plugins/i18n)
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { i18n } from "@better-auth/i18n";
+import { Qodewk } from "qodewk";
+import { i18n } from "@qodewk/i18n";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         i18n({
             defaultLocale: "en",
@@ -200,7 +200,7 @@ Error codes are fully typed — your IDE will autocomplete all available error c
 Every error response now includes a machine-readable `code` field. All first-party plugins define their own typed error codes using `defineErrorCodes`, and the `APIError` class supports them natively.
 
 ```tsx
-import { defineErrorCodes } from "@better-auth/core";
+import { defineErrorCodes } from "@qodewk/core";
 
 export const MY_ERROR_CODES = defineErrorCodes({
     USER_NOT_FOUND: "User not found",
@@ -235,7 +235,7 @@ As part of our new Infrastructure product, the SSO plugin is now accompanied by 
 The dashboard is available at:
 
 ```
-https://dash.better-auth.com/[project]/organization/[orgId]/enterprise
+https://dash.qodewk.dev/[project]/organization/[orgId]/enterprise
 ```
 
 From there, you can generate onboarding links, monitor SSO connection status, and manage provider configurations for each organization.
@@ -245,10 +245,10 @@ From there, you can generate onboarding links, monitor SSO connection status, an
 Full support for both SP-initiated and IdP-initiated SAML Single Logout:
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { sso } from "@better-auth/sso";
+import { Qodewk } from "qodewk";
+import { sso } from "@qodewk/sso";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         sso({
             saml: {
@@ -281,19 +281,19 @@ The API Key plugin has received some major improvements.
 We've extracted the plugin into it's own package, install it via:
 
 ```package-install
-npm install @better-auth/api-key
+npm install @qodewk/api-key
 ```
 
 And update your imports!
 
 ```diff title="auth.ts"
-- import { apiKey } from "better-auth/plugins";
-+ import { apiKey } from "@better-auth/api-key";
+- import { apiKey } from "qodewk/plugins";
++ import { apiKey } from "@qodewk/api-key";
 ```
 
 ```diff title="auth-client.ts"
-- import { apiKeyClient } from "better-auth/client/plugins";
-+ import { apiKeyClient } from "@better-auth/api-key/client";
+- import { apiKeyClient } from "qodewk/client/plugins";
++ import { apiKeyClient } from "@qodewk/api-key/client";
 ```
 
 #### Organization owned API Keys
@@ -302,9 +302,9 @@ Long awaited support for organization-owned API keys has been added.
 You can now create API keys that are owned by organizations instead of users.
 
 ```ts
-import { apiKey } from "@better-auth/api-key";
+import { apiKey } from "@qodewk/api-key";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [apiKey({ references: "organization" })],
 });
 ```
@@ -324,7 +324,7 @@ const apiKey = await auth.api.createApiKey({
 You can now support multiple api-key use-cases within your app!
 
 ```ts
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         apiKey([
             {
@@ -359,10 +359,10 @@ const key = auth.api.createApiKey({
 Plugin hooks and global hooks now share the same `AuthMiddleware` type, making the hooks system consistent and composable across the entire auth pipeline.
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { createAuthMiddleware } from "better-auth/api";
+import { Qodewk } from "qodewk";
+import { createAuthMiddleware } from "qodewk/api";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     hooks: {
         before: createAuthMiddleware(async (ctx) => {
             // Runs before every endpoint
@@ -393,12 +393,12 @@ hooks: {
 
 Qodewk can now resolve the base URL dynamically from incoming requests, making it work seamlessly with Vercel preview deployments, multi-domain setups, and reverse proxies.
 
-[👉 Read more about dynamic base URL](https://www.better-auth.com/docs/guides/dynamic-base-url)
+[👉 Read more about dynamic base URL](https://www.qodewk.dev/docs/guides/dynamic-base-url)
 
 ```tsx
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     baseURL: {
         allowedHosts: [
             "myapp.com",
@@ -418,9 +418,9 @@ export const auth = betterAuth({
 Verification tokens can now be stored in secondary storage (e.g., Redis) instead of — or in addition to — the database. Identifiers can be hashed for extra security.
 
 ```tsx
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     secondaryStorage: {
         // ... your Redis config
     },
@@ -458,9 +458,9 @@ The rate limiter has been improved with separate request/response handling, hard
 * **Expired entry cleanup**: Automatic cleanup for the memory storage backend.
 
 ```tsx
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     advanced: {
         ipAddress: {
             ipv6Subnet: 64, // Rate limit by /64 subnet
@@ -473,12 +473,12 @@ export const auth = betterAuth({
 
 ### Non-Destructive Secret Key Rotation
 
-Qodewk now supports rotating `BETTER_AUTH_SECRET` without invalidating existing sessions, tokens, or encrypted data. When you need to rotate your secret — whether for scheduled rotation or incident response — you can introduce a new key while keeping old keys available for decryption.
+Qodewk now supports rotating `qodewk_SECRET` without invalidating existing sessions, tokens, or encrypted data. When you need to rotate your secret — whether for scheduled rotation or incident response — you can introduce a new key while keeping old keys available for decryption.
 
 ```tsx
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     secrets: [
         { version: 2, value: "new-secret-key-at-least-32-chars" },   // current (first = active)
         { version: 1, value: "old-secret-key-still-used-to-decrypt" }, // previous
@@ -489,7 +489,7 @@ export const auth = betterAuth({
 Or via environment variable:
 
 ```bash
-BETTER_AUTH_SECRETS="2:new-secret-key,1:old-secret-key"
+qodewk_SECRETS="2:new-secret-key,1:old-secret-key"
 ```
 
 New data is always encrypted with the latest key (first in the array), while decryption automatically tries all configured keys. This lets you roll secrets gradually without downtime or data loss.
@@ -501,11 +501,11 @@ New data is always encrypted with the latest key (first in the array), while dec
 The Stripe plugin now supports per-seat billing for organizations. Member changes automatically sync seat quantity with Stripe.
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { stripe } from "@better-auth/stripe";
-import { organization } from "better-auth/plugins";
+import { Qodewk } from "qodewk";
+import { stripe } from "@qodewk/stripe";
+import { organization } from "qodewk/plugins";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         organization(),
         stripe({
@@ -535,13 +535,13 @@ The plugin also adds support for usage-based billing via `lineItems`, subscripti
 
 A new `testUtils` plugin provides factories, database helpers, and auth utilities for integration and E2E testing.
 
-[👉 Read more about test utilities](https://www.better-auth.com/docs/plugins/test-utils)
+[👉 Read more about test utilities](https://www.qodewk.dev/docs/plugins/test-utils)
 
 ```tsx
-import { betterAuth } from "better-auth";
-import { testUtils } from "better-auth/plugins";
+import { Qodewk } from "qodewk";
+import { testUtils } from "qodewk/plugins";
 
-export const testAuth = betterAuth({
+export const testAuth = Qodewk({
     plugins: [testUtils({ captureOTP: true })],
 });
 ```
@@ -587,19 +587,19 @@ Database adapters have been extracted into their own packages. This is a major a
 
 | Package                        | Description         |
 | ------------------------------ | ------------------- |
-| `@better-auth/drizzle-adapter` | Drizzle ORM adapter |
-| `@better-auth/prisma-adapter`  | Prisma adapter      |
-| `@better-auth/kysely-adapter`  | Kysely adapter      |
-| `@better-auth/mongo-adapter`   | MongoDB adapter     |
-| `@better-auth/memory-adapter`  | In-memory adapter   |
+| `@qodewk/drizzle-adapter` | Drizzle ORM adapter |
+| `@qodewk/prisma-adapter`  | Prisma adapter      |
+| `@qodewk/kysely-adapter`  | Kysely adapter      |
+| `@qodewk/mongo-adapter`   | MongoDB adapter     |
+| `@qodewk/memory-adapter`  | In-memory adapter   |
 
-The main `better-auth` package re-exports all adapters, so existing imports continue to work. But you can now install only the adapter you need for smaller bundles:
+The main `qodewk` package re-exports all adapters, so existing imports continue to work. But you can now install only the adapter you need for smaller bundles:
 
 ```tsx
-import { drizzleAdapter } from "@better-auth/drizzle-adapter";
-import { betterAuth } from "better-auth/minimal";
+import { drizzleAdapter } from "@qodewk/drizzle-adapter";
+import { Qodewk } from "qodewk/minimal";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     database: drizzleAdapter(db, { provider: "pg" }),
 });
 ```
@@ -611,11 +611,11 @@ export const auth = betterAuth({
 Qodewk now natively supports [Cloudflare D1](https://developers.cloudflare.com/d1/) as a first-class database option. Pass your D1 binding directly — no custom adapter setup required.
 
 ```tsx
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
 export default {
     async fetch(request, env) {
-        const auth = betterAuth({
+        const auth = Qodewk({
             database: env.DB, // D1 binding, auto-detected // [!code highlight]
         });
         return auth.handler(request);
@@ -636,7 +636,7 @@ The built-in D1 dialect handles query execution, batch operations, and introspec
 * **`deferSessionRefresh`**: Support for read-replica database setups.
 * **Awaitable social provider config**: Provider configuration can now be async.
 * **Limit enumeration on sign-up**: When email verification is required, sign-up no longer reveals existing accounts.
-* **`customSyntheticUser` option**: Support plugin fields in enumeration-protected responses ([#8097](https://github.com/better-auth/better-auth/pull/8097)).
+* **`customSyntheticUser` option**: Support plugin fields in enumeration-protected responses ([#8097](https://github.com/abushaidislam/Qodewk/pull/8097)).
 * **Form data support for email sign-in/sign-up**: In addition to JSON bodies.
 * **Automatic base URL detection from `VERCEL_URL` and `NEXTAUTH_URL`**: The client now falls back to `VERCEL_URL` and `NEXTAUTH_URL` environment variables when no explicit `baseURL` is configured, making server-side rendering on Vercel work out of the box.
 
@@ -685,9 +685,9 @@ The built-in D1 dialect handles query execution, batch operations, and introspec
 
 ### Core & Infrastructure
 
-* **`BetterAuthPluginRegistry` type system**: Typed plugin discovery via `getPlugin()` and `hasPlugin()`.
+* **`QodewkPluginRegistry` type system**: Typed plugin discovery via `getPlugin()` and `hasPlugin()`.
 * **Version in `AuthContext`**: Access the Qodewk version at runtime.
-* **Redis secondary storage**: Extracted to `@better-auth/redis-storage`.
+* **Redis secondary storage**: Extracted to `@qodewk/redis-storage`.
 * **Session ID handling for secondary storage**: Proper ID generation when database is not used.
 
 ***
@@ -696,7 +696,7 @@ The built-in D1 dialect handles query execution, batch operations, and introspec
 
 * **Prevent OTP reuse via race condition**: Atomically invalidate OTPs on use.
 * **Prevent user enumeration**: In email-otp when sign-up is disabled, and on sign-up with required email verification.
-* **Prevent email enumeration on `/change-email`**: Always returns `{ status: true }` and simulates token generation for timing safety ([#8097](https://github.com/better-auth/better-auth/pull/8097)).
+* **Prevent email enumeration on `/change-email`**: Always returns `{ status: true }` and simulates token generation for timing safety ([#8097](https://github.com/abushaidislam/Qodewk/pull/8097)).
 * **Stricter default rate limits**: For password reset and phone number verification endpoints.
 * **Separate CSRF and origin checks**: More granular request validation.
 * **Prevent trial abuse**: Check all user subscriptions before granting a free trial.
@@ -716,19 +716,19 @@ The `/forget-password/email-otp` endpoint has been removed. Use the standard pas
 
 ### Adapter Imports
 
-The `better-auth/adapters/test` export has been removed. Use `testAdapter` and `createTestSuite` from `@better-auth/test-utils/adapter` instead. See the [Create a Database Adapter](/docs/guides/create-a-db-adapter#test-your-adapter) guide for details.
+The `qodewk/adapters/test` export has been removed. Use `testAdapter` and `createTestSuite` from `@qodewk/test-utils/adapter` instead. See the [Create a Database Adapter](/docs/guides/create-a-db-adapter#test-your-adapter) guide for details.
 
-### API Key Plugin Moved to `@better-auth/api-key`
+### API Key Plugin Moved to `@qodewk/api-key`
 
 The api-key plugin has been extracted into its own package. Install it separately:
 
 ```bash
-npm install @better-auth/api-key
+npm install @qodewk/api-key
 ```
 
 ```diff
-- import { apiKey } from "better-auth/plugins";
-+ import { apiKey } from "@better-auth/api-key";
+- import { apiKey } from "qodewk/plugins";
++ import { apiKey } from "@qodewk/api-key";
 ```
 
 **Schema changes:**
@@ -741,7 +741,7 @@ npm install @better-auth/api-key
 The `permissions.defaultPermissions` callback's first argument is now `referenceId` instead of `userId`:
 
 ```diff
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         apiKey({
             permissions: {
@@ -787,22 +787,22 @@ All previously deprecated APIs have been removed. This includes deprecated adapt
 | `TransactionAdapter`                                            | `DBTransactionAdapter`                   |
 | `Store` (client)                                                | `ClientStore`                            |
 | `AtomListener` (client)                                         | `ClientAtomListener`                     |
-| `ClientOptions`                                                 | `BetterAuthClientOptions`                |
-| `LiteralUnion`, `DeepPartial` (from `better-auth/types/helper`) | Import from `@better-auth/core`          |
+| `ClientOptions`                                                 | `QodewkClientOptions`                |
+| `LiteralUnion`, `DeepPartial` (from `qodewk/types/helper`) | Import from `@qodewk/core`          |
 | `onEmailVerification`                                           | `afterEmailVerification`                 |
 | `sendChangeEmailVerification`                                   | `sendChangeEmailConfirmation`            |
 | `advanced.database.useNumberId`                                 | `advanced.database.generateId: "serial"` |
 | Organization `permission` field                                 | `permissions` (plural)                   |
 
-### `@better-auth/core/utils` Barrel Export Removed
+### `@qodewk/core/utils` Barrel Export Removed
 
-The `@better-auth/core/utils` barrel export has been split into individual subpath exports to improve tree-shaking:
+The `@qodewk/core/utils` barrel export has been split into individual subpath exports to improve tree-shaking:
 
 ```diff
-- import { generateId, safeJSONParse, defineErrorCodes } from "@better-auth/core/utils";
-+ import { generateId } from "@better-auth/core/utils/id";
-+ import { safeJSONParse } from "@better-auth/core/utils/json";
-+ import { defineErrorCodes } from "@better-auth/core/utils/error-codes";
+- import { generateId, safeJSONParse, defineErrorCodes } from "@qodewk/core/utils";
++ import { generateId } from "@qodewk/core/utils/id";
++ import { safeJSONParse } from "@qodewk/core/utils/json";
++ import { defineErrorCodes } from "@qodewk/core/utils/error-codes";
 ```
 
 ### `$ERROR_CODES` Type Changed to `RawError` Objects
@@ -822,7 +822,7 @@ The `$ERROR_CODES` field on plugins now expects `Record<string, RawError>` inste
 Use the new `APIError.from()` static method to throw errors with error codes:
 
 ```tsx
-import { APIError } from "@better-auth/core/error";
+import { APIError } from "@qodewk/core/error";
 
 throw APIError.from("BAD_REQUEST", MY_ERROR_CODES.MY_ERROR);
 ```
@@ -832,7 +832,7 @@ throw APIError.from("BAD_REQUEST", MY_ERROR_CODES.MY_ERROR);
 `PluginContext` is now parameterized with `Options`:
 
 ```tsx
-type PluginContext<Options extends BetterAuthOptions> = {
+type PluginContext<Options extends QodewkOptions> = {
     getPlugin: <ID extends string>(pluginId: ID) => /* inferred from registry */ | null;
     hasPlugin: <ID extends string>(pluginId: ID) => boolean; // narrows to `true` when plugin is registered
 };
@@ -841,8 +841,8 @@ type PluginContext<Options extends BetterAuthOptions> = {
 Plugins can register themselves via module augmentation for type-safe `getPlugin()` and `hasPlugin()`:
 
 ```tsx
-declare module "@better-auth/core" {
-    interface BetterAuthPluginRegistry<AuthOptions, Options> {
+declare module "@qodewk/core" {
+    interface QodewkPluginRegistry<AuthOptions, Options> {
         "my-plugin": { creator: typeof myPlugin };
     }
 }
@@ -853,9 +853,9 @@ declare module "@better-auth/core" {
 The `InferUser<O>` and `InferSession<O>` types have been removed. Use the generic `User` and `Session` types instead:
 
 ```diff
-- import type { InferUser, InferSession } from "better-auth/types";
+- import type { InferUser, InferSession } from "qodewk/types";
 - type MyUser = InferUser<typeof auth>;
-+ import type { User, Session } from "better-auth";
++ import type { User, Session } from "qodewk";
 + type MyUser = User<typeof auth.$options["user"], typeof auth.$options["plugins"]>;
 ```
 
@@ -865,13 +865,13 @@ Database "after" hooks (`create.after`, `update.after`, `delete.after`) now exec
 
 If your plugin relies on after hooks running inside the transaction for additional atomic database writes, you'll need to use the adapter directly within the main operation instead.
 
-### `getMigrations` Moved to `better-auth/db/migration` Subpath
+### `getMigrations` Moved to `qodewk/db/migration` Subpath
 
 We found that the `getMigrations` function includes many third-party dependencies, which caused some bundlers to unexpectedly include extra dependencies and increase output size. It's now available from a dedicated subpath:
 
 ```diff
-- import { getMigrations } from "better-auth";
-+ import { getMigrations } from "better-auth/db/migration";
+- import { getMigrations } from "qodewk";
++ import { getMigrations } from "qodewk/db/migration";
 ```
 
 ### `id` Field Removed from Session in Secondary Storage
@@ -907,7 +907,7 @@ This release includes over 220 bug fixes addressing issues across all areas:
 ***
 
 A lot of refinements to make everything smoother, faster, and more reliable.
-👉 [Check the full changelog](https://github.com/better-auth/better-auth/releases/tag/v1.5.0)
+👉 [Check the full changelog](https://github.com/abushaidislam/Qodewk/releases/tag/v1.5.0)
 
 ## ❤️ Contributors
 

@@ -418,14 +418,14 @@ function TypographyBlock() {
 					meta="text-[11px] font-mono uppercase tracking-wider"
 					className="text-[11px] font-mono uppercase tracking-wider text-foreground/70"
 				>
-					api / better-auth / v1.4.0
+					api / qodewk / v1.4.0
 				</TypeRow>
 				<TypeRow
 					label="Geist Mono · Code"
 					meta="font-mono text-sm"
 					className="font-mono text-sm text-foreground/80"
 				>
-					{"const auth = betterAuth({ secret, baseURL });"}
+					{"const auth = Qodewk({ secret, baseURL });"}
 				</TypeRow>
 			</div>
 		</Subsection>
@@ -591,7 +591,7 @@ function FormBlock() {
 					<span className="text-[11px] font-mono uppercase tracking-wider text-foreground/50">
 						Email
 					</span>
-					<Input type="email" placeholder="you@better-auth.com" />
+					<Input type="email" placeholder="you@qodewk.dev" />
 				</label>
 				<label className="flex flex-col gap-1.5">
 					<span className="text-[11px] font-mono uppercase tracking-wider text-foreground/50">
@@ -685,17 +685,17 @@ function TabsBlock() {
 					</TabsList>
 					<TabsContent value="ts">
 						<pre className="mt-3 font-mono text-xs p-3 bg-foreground/[0.03] border border-foreground/10 overflow-x-auto">
-							<code>{`import { betterAuth } from "better-auth";\n\nexport const auth = betterAuth({ secret: process.env.AUTH_SECRET });`}</code>
+							<code>{`import { Qodewk } from "qodewk";\n\nexport const auth = Qodewk({ secret: process.env.AUTH_SECRET });`}</code>
 						</pre>
 					</TabsContent>
 					<TabsContent value="js">
 						<pre className="mt-3 font-mono text-xs p-3 bg-foreground/[0.03] border border-foreground/10 overflow-x-auto">
-							<code>{`const { betterAuth } = require("better-auth");\n\nmodule.exports.auth = betterAuth({ secret: process.env.AUTH_SECRET });`}</code>
+							<code>{`const { Qodewk } = require("qodewk");\n\nmodule.exports.auth = Qodewk({ secret: process.env.AUTH_SECRET });`}</code>
 						</pre>
 					</TabsContent>
 					<TabsContent value="sh">
 						<pre className="mt-3 font-mono text-xs p-3 bg-foreground/[0.03] border border-foreground/10 overflow-x-auto">
-							<code>pnpm add better-auth</code>
+							<code>pnpm add qodewk</code>
 						</pre>
 					</TabsContent>
 				</Tabs>

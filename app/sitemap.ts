@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { blogs, source } from "@/lib/source";
 
-const BASE_URL = "https://better-auth.com";
+const BASE_URL = "https://qodewk.dev";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const basePages: MetadataRoute.Sitemap = [

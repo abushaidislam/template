@@ -1,0 +1,145 @@
+---
+title: Privacy & Security
+description: Zero-friction local telemetry and privacy design
+---
+
+## Core guarantee
+
+Default product promise:
+
+> Proprietary source code and source diffs never leave the developer machine.
+
+Cloud features must work using metadata unless the user explicitly enables an integration that requires additional data.
+
+## Data allowed to leave the machine by default
+
+Examples:
+
+```text
+installation id
+repository hash
+branch hash
+commit SHA where appropriate
+files changed count
+insertions
+deletions
+language distribution
+estimated/verified token counts
+estimated/verified cost
+timestamp
+provider/model
+confidence
+```
+
+## Data that must not leave by default
+
+```text
+source code
+full diff bodies
+file contents
+prompts
+AI conversations
+shell history
+API keys
+.env contents
+credentials
+SSH keys
+local secrets
+```
+
+## Hashing strategy
+
+Repository identity should use a normalized identifier plus an installation-specific salt.
+
+Example:
+
+```text
+repoHash = SHA-256(normalizedRepoIdentity + localSalt)
+```
+
+The server should not require raw repository URL to aggregate anonymous/local telemetry.
+
+## Threat model
+
+### Threat: accidental source upload
+
+Mitigations:
+
+- API payload allowlist
+- schema validation
+- unit tests that reject content fields
+- no recursive repository upload API
+- redaction checks before network requests
+
+### Threat: secret leakage through filenames
+
+Even filenames can be sensitive. Public receipts should prefer counts/language groups and optional sanitized paths.
+
+### Threat: malicious repository
+
+Do not execute repository code during receipt generation.
+
+Git parsing should be data-oriented. Avoid running package scripts/build steps.
+
+### Threat: untrusted Git config
+
+Treat Git config and remote metadata as untrusted input. Normalize and sanitize before logging/rendering.
+
+### Threat: public receipt enumeration
+
+Use unguessable public receipt IDs and rate-limit receipt creation.
+
+## Local-first principles
+
+1. The local machine is the default telemetry source.
+2. Cloud is an optional synchronization layer.
+3. Offline mode must remain useful.
+4. Export/delete must be supported.
+5. The user should be able to inspect exactly what would be uploaded.
+
+## Security controls for cloud
+
+- Row-level security (RLS)
+- per-user/org isolation
+- signed GitHub installation tokens
+- encrypted secrets
+- short-lived integration credentials
+- audit log for enterprise
+- configurable retention
+
+## Cloud API Abuse Prevention & Anonymous Share Safeguards
+
+To prevent spam, database denial-of-service, and data smuggling via `qodewk share`:
+
+### 1. Hard Payload Cap (50 KB)
+- The `/api/receipts` endpoint enforces a strict `50 KB` request body limit.
+- Metadata, counts, and token summaries typically take 2–5 KB. A 50 KB cap physically guarantees that large files, AST blobs, or source code cannot be smuggled.
+
+### 2. IP Rate Limiting & Abuse Prevention
+- Unauthenticated requests: Max **20 receipt creations per IP / hour**.
+- Authenticated requests: Bound to user/org plan tiers.
+- In-memory sliding window or Redis rate-limiting (Upstash).
+
+### 3. Expiration Policy for Anonymous Receipts
+- **Unauthenticated receipts:** Stored ephemerally with a **30-day Time-To-Live (TTL)**. Automatically purged unless claimed.
+- **Authenticated receipts:** Persisted permanently according to user subscription retention rules.
+
+### 4. Author Claim Token Mechanism
+When `qodewk share` runs anonymously, the API returns:
+```json
+{
+  "publicId": "rec_01J8Y29K4Z00ABC123DEF456",
+  "url": "https://qodewk.dev/r/rec_01J8Y29K4Z00ABC123DEF456",
+  "claimToken": "clm_secret_9f8e7d..."
+}
+```
+- The `claimToken` is stored in the local SQLite database (`receipts.claim_token`).
+- It grants the original creator the right to delete the receipt or link it to an authenticated Qodewk account later.
+
+## Privacy UX
+
+Every public receipt should include:
+
+> Source code was not uploaded to Qodewk.
+
+This should be a visible trust signal, not buried in documentation.

@@ -10,11 +10,11 @@ const packageMetadataSchema = z.object({ version: z.string() });
 
 const repo =
 	process.env.DOCS_SYNC_REPO ??
-	"https://github.com/better-auth/better-auth.git";
+	"https://github.com/abushaidislam/Qodewk.git";
 const docsRoot = fileURLToPath(new URL("..", import.meta.url));
 const repositoryRoot = dirname(docsRoot);
 const remotePath = "docs/content/docs";
-const packagePath = "packages/better-auth/package.json";
+const packagePath = "packages/qodewk/package.json";
 const tempRoot = join(docsRoot, ".docs-sync-tmp");
 const repositoryDirectory = join(tempRoot, "repository");
 const releaseVersionsPath = join(
@@ -80,7 +80,7 @@ async function prepareWorktree(version: (typeof versionsToSync)[number]) {
 		"sparse-checkout",
 		"set",
 		remotePath,
-		"packages/better-auth",
+		"packages/qodewk",
 	]);
 	await git([
 		"-C",

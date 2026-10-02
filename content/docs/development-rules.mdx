@@ -1,0 +1,99 @@
+---
+title: Development Rules
+description: Codebase conventions and guidelines
+---
+
+This document is intended for human contributors and AI coding agents.
+
+## Rule 1 — Never fake precision
+
+If a number is estimated, label it estimated.
+
+Do not convert a heuristic into an invoice-like exact figure.
+
+## Rule 2 — Privacy by construction
+
+Do not add source-code upload features to the core pipeline.
+
+Any feature requiring additional data must be an explicit opt-in integration.
+
+## Rule 3 — Core is provider-neutral
+
+Provider-specific logic lives in adapters.
+
+Do not embed Claude/Cursor/Copilot assumptions in Git mutation code.
+
+## Rule 4 — Git is the source of truth for mutation
+
+Filesystem watchers may detect activity, but final mutation metrics should be based on Git state when possible.
+
+## Rule 5 — Hooks must be non-blocking
+
+Never make a synchronous network request from a Git hook.
+
+## Rule 6 — Protocol first
+
+New telemetry should map into the versioned receipt schema.
+
+## Rule 7 — Local mode must remain useful
+
+The product should still generate receipts without a cloud account.
+
+## Rule 8 — Avoid monorepo-wide scans
+
+Prefer incremental and targeted processing.
+
+## Rule 9 — Do not execute repository code
+
+Receipt generation must not run arbitrary package scripts, build tasks, tests, or install hooks.
+
+## Rule 10 — Public receipts are sanitized
+
+Do not publish raw repository names, branch names, paths, prompts or filenames unless the user explicitly opts in.
+
+## Rule 11 — Attribution is probabilistic unless verified
+
+Use `Human`, `AI`, `Mixed`, `Unknown` or an explicitly estimated percentage with confidence.
+
+## Rule 12 — Small core, extensible adapters
+
+The core should know about:
+
+- Git
+- mutation metrics
+- receipt schema
+- local state
+
+Adapters handle:
+
+- providers
+- IDEs
+- cloud integrations
+- messaging systems
+
+## Rule 13 — The first release is a vertical slice
+
+Do not expand horizontally before the basic loop works:
+
+```text
+repo -> receipt -> share
+```
+
+## Rule 14 — Every metric needs provenance
+
+For every number ask:
+
+```text
+Where did this number come from?
+Observed?
+Imported?
+Verified?
+Estimated?
+Unknown?
+```
+
+Store that provenance in the receipt.
+
+## Rule 15 — Confidence is a 0–1 score
+
+Persist confidence as a number between `0` and `1`. UI may render percentages or Low/Medium/High bands; do not invent a second conflicting schema.

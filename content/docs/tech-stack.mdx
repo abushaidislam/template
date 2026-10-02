@@ -1,0 +1,151 @@
+---
+title: Tech Stack
+description: Technology stack behind Qodewk
+---
+
+## CLI
+
+### Recommendation
+
+**Node.js + TypeScript for MVP**
+
+Target:
+
+```text
+Node.js 22+
+TypeScript
+pnpm
+```
+
+Suggested packages:
+
+```text
+simple-git
+chokidar
+zod
+pino
+commander or citty
+tree-sitter
+better-sqlite3
+```
+
+## Why TypeScript first
+
+- fastest path to working CLI
+- strong Git/filesystem ecosystem
+- same language as web application
+- easy JSON/protocol sharing
+- easy provider adapters
+- easy CI/GitHub Action packaging
+
+## Why not Rust first
+
+Rust becomes attractive when:
+
+- repositories are huge
+- watcher throughput matters
+- AST processing is CPU-heavy
+- desktop daemon performance becomes a product differentiator
+
+At that stage consider a Rust core with a TypeScript shell.
+
+## Web application
+
+Recommended:
+
+```text
+Next.js App Router
+TypeScript
+Tailwind CSS
+shadcn/ui
+Supabase Postgres/Auth
+Vercel
+next/og
+```
+
+Next.js supports dynamic OG images through `next/og` / `ImageResponse`.
+
+Reference:
+https://nextjs.org/docs/app/getting-started/metadata-and-og-images
+
+## Data layer
+
+### Cloud
+
+Supabase Postgres is sufficient for MVP.
+
+Core tables:
+
+```text
+users
+organizations
+repositories
+receipts
+receipt_events
+provider_usage
+pricing_versions
+github_installations
+subscriptions
+```
+
+### Local
+
+SQLite:
+
+```text
+~/.qodewk/state.db
+```
+
+### Why local + cloud
+
+Local telemetry should not depend on the network. Cloud adds sharing/history/team features.
+
+## Rendering
+
+Use `next/og` first. Satori-level customization can be introduced later if custom rendering needs grow.
+
+## Cloud API shape
+
+Example:
+
+```text
+POST /api/receipts
+GET  /api/receipts/:id
+POST /api/github/pr
+GET  /api/pricing
+```
+
+## Monorepo & Architectural Boundaries
+
+```text
+apps/web
+packages/cli
+packages/core
+packages/protocol
+packages/pricing
+packages/providers
+```
+
+### Strict Package Boundary Rules
+
+To ensure reliable serverless execution and prevent runtime crashes:
+
+1. **`apps/web` (Next.js Edge / Serverless Runtime):**
+   - **Allowed Dependencies:** `packages/protocol`, `packages/pricing`.
+   - **Strictly Prohibited:** `packages/core`. The web app runs in serverless/edge environments where the local `git` binary and native SQLite C-bindings are unavailable.
+2. **`packages/core` (Local Node.js Engine):**
+   - Owns Git execution (`simple-git`), filesystem operations, and local SQLite state (`better-sqlite3`).
+   - Depends on `packages/protocol` and `packages/pricing`.
+3. **`packages/cli` (Terminal Interface):**
+   - Thin CLI shell (`commander` / `citty` + `picocolors`).
+   - Depends on `packages/core`, `packages/protocol`, `packages/pricing`.
+4. **`packages/protocol` & `packages/pricing` (Zero Native Dependency Core):**
+   - Pure TypeScript + Zod. Universal compatibility across Browser, Node.js, and Edge runtimes.
+
+This separation ensures clean packaging, tiny bundles, and cross-runtime interoperability.
+
+## Deployment
+
+Use Vercel for the Next.js app. Keep the CLI independently distributable through npm.
+
+For CI/CD, pin tool versions and keep deployments reproducible.

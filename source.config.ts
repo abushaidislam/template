@@ -33,16 +33,6 @@ export const docs = defineDocs({
 	},
 });
 
-export const docsV16 = defineDocs({
-	dir: "./content/_generated/docs/v1-6",
-	docs: {
-		schema: docsPageSchema,
-		postprocess: {
-			includeProcessedMarkdown: processedMarkdownOptions,
-		},
-		async: true,
-	},
-});
 
 export const blogCollection = defineCollections({
 	type: "doc",

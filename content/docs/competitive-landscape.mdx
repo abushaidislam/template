@@ -1,0 +1,109 @@
+---
+title: Competitive Landscape
+description: Qodewk positioning vs other AI telemetry tools
+---
+
+## Market reality
+
+The category is becoming crowded. Developer analytics products and AI coding providers are both adding usage/cost visibility.
+
+## Relevant competitors / adjacent products
+
+### Claude-specific receipt tools
+
+Open-source Claude Code receipt projects demonstrate demand for terminal/browser/receipt-style reporting, but remain provider-specific.
+
+Example: https://github.com/chrishutchinson/claude-receipts
+
+Lesson:
+
+> Receipt UX is a proven hook, but provider-specific parsing is not a universal moat.
+
+### WakaTime
+
+WakaTime has expanded beyond pure time tracking into AI adoption, model usage, estimated spend, AI-vs-human coding signals, and team analytics.
+
+Reference: https://wakatime.com/pricing
+
+Implication:
+
+Do not define Qodewk as “WakaTime for AI”. The differentiation should be the Git-native receipt/protocol layer.
+
+### Cursor
+
+Cursor exposes usage visibility and team spend-control mechanisms.
+
+Reference: https://cursor.com/blog/teams-pricing-june-2026
+
+Implication:
+
+Cursor knows Cursor activity better than Qodewk ever will. Qodewk should instead own the cross-tool, repository-level layer.
+
+### GitHub Copilot
+
+GitHub increasingly exposes usage through AI Credits and related usage concepts.
+
+Reference: https://github.com/features/copilot/plans
+
+Implication:
+
+Copilot provides native usage information. Qodewk provides a provider-neutral proof-of-work artifact.
+
+## Competitive matrix
+
+| Capability | Qodewk | Claude receipts | WakaTime | Cursor | Copilot |
+|---|---:|---:|---:|---:|---:|
+| Multi-agent | Yes | No/limited | Yes | No | Partial |
+| Git-native | Core | Partial | Partial | Partial | Yes |
+| Source-independent | Core | Partial | Mostly | No | No |
+| AI cost | Yes | Yes | Yes | Yes | Yes |
+| Proof-of-work | Core | Limited | Partial | Partial | Partial |
+| Shareable receipt | Core | Yes | Charts | Limited | Limited |
+| Provider-agnostic | Core | No | Yes | No | Partial |
+| Open protocol | Opportunity | No | No | No | No |
+
+## Defensibility
+
+### Weak moats
+
+- receipt card design
+- Git diff parser
+- generic cost formula
+- simple dashboard
+
+These are easy to reproduce.
+
+### Stronger moats
+
+1. Open Receipt Protocol adoption
+2. Provider adapter ecosystem
+3. Cross-tool historical attribution dataset, privacy-preserving by design
+4. GitHub PR/workflow distribution
+5. Trusted privacy architecture
+6. Team governance and audit data
+7. Large installed base generating longitudinal engineering benchmarks
+
+## Threat: IDEs build this natively
+
+This is expected.
+
+The defense is not “IDEs cannot do this”. They can.
+
+The defense is:
+
+```text
+IDE A + IDE B + Agent C + Manual coding
+              |
+              v
+            Qodewk
+              |
+        shared protocol
+              |
+       cross-repo history
+```
+
+A provider has an incentive to optimize for its own ecosystem. Qodewk's value increases when a developer uses several tools.
+
+## Strategic positioning
+
+> GitHub tells you what shipped. Providers tell you what was consumed. Qodewk connects the two.

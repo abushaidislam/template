@@ -9,7 +9,7 @@ date: 2025-03-01
 To upgrade, run:
 
 ```package-install
-npm install better-auth@1.2
+npm install qodewk@1.2
 ```
 
 ***
@@ -19,13 +19,13 @@ npm install better-auth@1.2
 Stripe integration for customer management, subscriptions, and webhooks.
 
 ```package-install
-npm install @better-auth/stripe
+npm install @qodewk/stripe
 ```
 
 ```ts title="auth.ts"
-import { stripe } from "@better-auth/stripe"; // [!code highlight]
+import { stripe } from "@qodewk/stripe"; // [!code highlight]
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     stripe({
       // [!code highlight]
@@ -51,9 +51,9 @@ Read the [Stripe Plugin docs](/docs/plugins/stripe) for more information.
 Protect your authentication flows with Google reCAPTCHA and Cloudflare Turnstile. Works for signup, signin, and password resets.
 
 ```ts title="auth.ts"
-import { captcha } from "better-auth/plugins";
+import { captcha } from "qodewk/plugins";
 
-const auth = betterAuth({
+const auth = Qodewk({
   plugins: [
     // [!code highlight]
     captcha({
@@ -72,9 +72,9 @@ Read the [Captcha Plugin docs](/docs/plugins/captcha) for more information.
 Generate and manage API keys with rate limiting, expiration, and metadata. Supports session creation from API keys.
 
 ```ts title="auth.ts"
-import { apiKey } from "better-auth/plugins";
+import { apiKey } from "qodewk/plugins";
 
-const auth = betterAuth({
+const auth = Qodewk({
   plugins: [apiKey()],
 });
 ```
@@ -86,7 +86,7 @@ Read the [API Key Plugin docs](/docs/plugins/api-key) for more information.
 Organizations can now have teams or sub-organizations under them.
 
 ```ts title="auth.ts"
-const auth = betterAuth({
+const auth = Qodewk({
   plugins: [
     organization({
       teams: {
@@ -171,12 +171,12 @@ The CLI now includes an `init` command to speed up setup:
 
 ## 🛠 Bug Fixes & Stability Improvements
 
-A lot of fixes and refinements to make everything smoother, faster, and more reliable. Check out the [changelog](https://github.com/better-auth/better-auth/releases/tag/v1.2.0) for more details.
+A lot of fixes and refinements to make everything smoother, faster, and more reliable. Check out the [changelog](https://github.com/abushaidislam/Qodewk/releases/tag/v1.2.0) for more details.
 
 ***
 
 ```package-install
-npm install better-auth@1.2.0
+npm install qodewk@1.2.0
 ```
 
 **Upgrade now and take advantage of these powerful new features!** 🚀

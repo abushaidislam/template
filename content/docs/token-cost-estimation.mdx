@@ -1,0 +1,210 @@
+---
+title: Token & Cost Estimation
+description: How Qodewk calculates AI token usage and costs
+---
+
+## Core warning
+
+Git diff cannot recover exact model token burn in the general case.
+
+The actual model context can include:
+
+- system prompt
+- repository instructions
+- previous conversation
+- tool definitions
+- selected files
+- retrieved files
+- tool outputs
+- generated output
+- reasoning tokens
+- cache hits
+- retries
+
+Git only observes the repository-side mutation.
+
+Therefore Qodewk must distinguish exact/verified telemetry from estimates.
+
+## Three-tier model
+
+### Tier 1 — Exact / verified
+
+Provider telemetry or API usage data is available.
+
+Store actual:
+
+- model
+- input tokens
+- cached input tokens if applicable
+- output tokens
+- provider-reported cost where available
+
+### Tier 2 — Imported
+
+A provider-specific local export or artifact exists but billing may require normalization.
+
+### Tier 3 — Estimated
+
+Only repository mutation is known.
+
+Output should be a range or explicitly labeled estimate.
+
+Example UI:
+
+```text
+Estimated AI cost: $2.10–$3.40
+Confidence: 72%
+```
+
+Avoid presenting `2.41` as if it were an invoice amount unless it is actually verified.
+
+## Calibrated Estimation Formula & Multipliers
+
+Code diffs only represent the output; AI agents consume vast amounts of context (system prompts, retrieved files, conversation history) to generate that output.
+
+### 1. Token Estimation Heuristic
+
+```text
+// Step A: Base code tokens
+changedCharacters = insertionsLength + deletionsLength
+addedCodeTokens = addedCharacters / 4
+estimatedOutputTokens = Math.max(addedCodeTokens, 50)
+
+// Step B: Context Multiplier by Scope
+// AI agents read much more than they write.
+Context Multiplier Tiers:
+- Single-file change (1–2 files):       15x (localized prompt context)
+- Component/Feature (3–9 files):        35x (medium agent context loop)
+- Architecture/Refactor (10+ files):    60x (large workspace context)
+Max Context Cap: 200,000 tokens (or provider model max limit)
+
+estimatedInputTokens = Math.min(
+  Math.max(changedCharacters / 4, 100) * contextMultiplier,
+  maxContextCap
+)
+```
+
+### 2. Prompt Caching Discount Factor
+
+Modern agentic coding tools (Claude Code, Cursor, Copilot) rely heavily on prompt caching. Cache hits are up to 90% cheaper.
+
+Default agentic cache assumption when exact metrics are absent:
+- **Cache Read Ratio:** 60% of estimated input tokens
+- **Fresh Input / Cache Write Ratio:** 40% of estimated input tokens
+
+```text
+cachedInputTokens = Math.round(estimatedInputTokens * 0.60)
+freshInputTokens = estimatedInputTokens - cachedInputTokens
+```
+
+### 3. Cost Calculation Formula
+
+Using versioned rates from the Pricing Registry (`perMTok` = per 1 Million Tokens):
+
+```text
+inputCost = (freshInputTokens / 1_000_000) * model.inputPerMTok
+cachedCost = (cachedInputTokens / 1_000_000) * model.cachedInputPerMTok
+outputCost = (estimatedOutputTokens / 1_000_000) * model.outputPerMTok
+
+midpointCost = inputCost + cachedCost + outputCost
+
+// In UI and estimates, present uncertainty range:
+lowBoundCost  = midpointCost * 0.75  (-25%)
+highBoundCost = midpointCost * 1.35  (+35%)
+```
+
+Example Display:
+`Estimated Cost: ~$1.80–$2.90 (Mid: $2.35) · Confidence: 0.65 (Medium)`
+
+## Future AST-aware model
+
+A later estimator can compute:
+
+```text
+MutationScore =
+  LOC weight
+  + AST node weight
+  + complexity delta
+  + dependency impact
+  + file fan-out
+```
+
+Potential AST features:
+
+- functions changed
+- classes changed
+- imports changed
+- control-flow nodes changed
+- public API changes
+- dependency graph fan-out
+
+Tree-sitter is a practical foundation for incremental AST parsing.
+
+## Confidence score
+
+Confidence is stored as a `0–1` number in the receipt schema. UI may display it as a percentage (`74%`) or as a band:
+
+```text
+0.00–0.39  Low
+0.40–0.69  Medium
+0.70–1.00  High
+```
+
+Confidence should depend on available evidence.
+
+Example heuristic:
+
+```text
+provider actual usage       +0.55
+provider/model known         +0.15
+git patch known              +0.10
+session linkage known        +0.10
+context assumptions low      +0.10
+-------------------------------------
+maximum                      1.00
+```
+
+Do not imply this is statistically calibrated. It is a product confidence indicator until real-world telemetry can be used to calibrate it.
+
+## Pricing registry
+
+Do not hard-code pricing in the estimator.
+
+Use versioned records:
+
+```json
+{
+  "provider": "anthropic",
+  "model": "claude-opus-4",
+  "effectiveFrom": "2026-01-01T00:00:00Z",
+  "currency": "USD",
+  "inputPerMTok": 4,
+  "cachedInputPerMTok": 0.2,
+  "outputPerMTok": 20
+}
+```
+
+Pricing must be versioned because provider prices change and can differ by mode.
+
+Current provider documentation shows why a generic schema needs separate input/output/cached/processing dimensions. Anthropic, OpenAI, DeepSeek and Gemini all expose pricing dimensions that can differ by model and mode.
+
+References:
+
+- Anthropic: https://www.anthropic.com/claude/opus
+- OpenAI: https://help.openai.com/en/articles/20001415-chatgpt-rate-card-enterprise-token-based-pricing
+- DeepSeek: https://api-docs.deepseek.com/quick_start/pricing/
+- Gemini: https://ai.google.dev/gemini-api/docs/pricing
+
+## Future calibration loop
+
+Once exact provider sessions can be linked to Git work, store:
+
+```text
+observed Git mutations
+actual token usage
+actual cost
+```
+
+Then fit a model per provider/model/tool class to reduce estimation error.
+
+The end state is not “perfect inference”; it is a calibrated estimate with visible uncertainty.

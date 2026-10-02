@@ -30,7 +30,7 @@ const nextConfig = {
 			// Infrastructure backwards compatibility redirects
 			{
 				source: "/dashboard/:path*",
-				destination: "https://dash.better-auth.com",
+				destination: "https://dash.qodewk.dev",
 				permanent: true,
 			},
 			{

@@ -23,7 +23,7 @@ export const metadata: Metadata = createMetadata({
 			"application/rss+xml": [
 				{
 					title: "Qodewk Blog",
-					url: "https://better-auth.com/blog/rss.xml",
+					url: "https://qodewk.dev/blog/rss.xml",
 				},
 			],
 		},

@@ -33,7 +33,7 @@ describe("getChatErrorMessage", () => {
 	});
 
 	/**
-	 * @see https://github.com/better-auth/better-auth/pull/10760
+	 * @see https://github.com/abushaidislam/Qodewk/pull/10760
 	 */
 	it("does not mistake unrelated quota or numeric details for rate limits", () => {
 		const errors = [

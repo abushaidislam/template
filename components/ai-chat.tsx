@@ -57,7 +57,7 @@ const chatTransport = new DefaultChatTransport({
 });
 
 /** Dispatched to open the panel from outside the provider tree (e.g. mobile top nav). */
-export const OPEN_AI_CHAT_EVENT = "better-auth:open-ai-chat";
+export const OPEN_AI_CHAT_EVENT = "qodewk:open-ai-chat";
 
 export function AIChat({ children }: { children: ReactNode }) {
 	const [open, setOpen] = useState(false);

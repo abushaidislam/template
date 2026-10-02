@@ -1,0 +1,125 @@
+---
+title: Product Thesis
+description: Overview and core thesis of Qodewk
+---
+
+## One-line definition
+
+**Qodewk is the Git-native receipt layer for AI-powered software development.**
+
+## Problem
+
+Modern software development can involve several AI coding tools at once: Claude Code, Cursor, Copilot, Codex, Windsurf, Gemini-based tools, other agents, and manual coding. Each provider exposes different usage and pricing surfaces. The developer therefore lacks one portable layer that answers:
+
+1. What changed in my repository?
+2. What part of that work was AI-assisted?
+3. What did it likely cost?
+4. What did I actually ship?
+5. Can I prove/share that work without exposing source code?
+
+## Thesis
+
+The IDE or agent is not the universal source of truth. The repository state is.
+
+Qodewk sits at the Git/filesystem layer and converts observable repository mutations into a provider-neutral receipt.
+
+## Product positioning
+
+Preferred positioning:
+
+> The receipt layer for AI-powered software development.
+
+Supporting line:
+
+> Track what changed, estimate what it cost, and prove what you shipped — across every coding agent.
+
+Trust statement:
+
+> Your source code never leaves your machine.
+
+## What Qodewk is
+
+- Git-native
+- local-first
+- provider-agnostic
+- privacy-first
+- open-source
+- machine-readable
+- human-shareable
+- useful in CLI and CI
+
+## What Qodewk is not
+
+- Not an IDE replacement
+- Not an AI agent
+- Not a source-code cloud backup
+- Not a perfect detector of AI-written code
+- Not an always-correct billing calculator when provider telemetry is unavailable
+- Not a universal kill-switch in environments where the provider exposes no enforcement interface
+
+## Key product language
+
+Every metric needs provenance. Use these attribution modes consistently across product, protocol, and UI:
+
+### Observed
+Directly measured from Git/filesystem/provider APIs.
+
+Examples:
+
+- 14 files changed
+- +381 / -72 lines
+- commit SHA
+- actual provider token counts when explicitly available
+
+### Estimated
+Derived from observed data and heuristics.
+
+Examples:
+
+- ~183K tokens
+- ~$2.41 estimated cost
+- estimated AI-assisted share (only when evidence is sufficient)
+
+### Imported
+Taken from a provider artifact or export that still may need normalization before billing use.
+
+Example:
+
+- tokens loaded from a provider usage export file
+
+### Verified
+Provider-reported values with a known billing basis.
+
+Example:
+
+- $2.18 provider-reported cost for a session
+
+### Unknown
+No trustworthy basis for the metric yet.
+
+Never collapse these categories in the UI. Prefer showing confidence as a `0–1` score in data, and as a percentage or Low/Medium/High band in human-facing surfaces.
+
+## Core differentiation
+
+Qodewk should not position itself as "WakaTime for AI" or "another AI usage dashboard".
+
+Its core wedge is:
+
+> Git + AI cost attribution + proof-of-work + privacy + shareability.
+
+## Long-term moat
+
+The strategic asset is the **Qodewk Receipt Protocol**: a portable schema and adapter model that lets many agents and IDEs feed into one receipt format.
+
+Potential adapter ecosystem:
+
+```text
+@qodewk/claude
+@qodewk/cursor
+@qodewk/copilot
+@qodewk/codex
+@qodewk/windsurf
+@qodewk/gemini
+```
+
+The protocol, integrations, historical data model, and trusted privacy boundary are stronger long-term moats than a pretty receipt card alone.

@@ -173,7 +173,7 @@ const platforms = [
 	{
 		name: "Discord",
 		icon: DiscordIcon,
-		href: "https://discord.gg/better-auth",
+		href: "https://discord.gg/qodewk",
 		cta: "Join Discord",
 		members: "10,000+",
 		label: "members",
@@ -181,7 +181,7 @@ const platforms = [
 	{
 		name: "GitHub",
 		icon: GitHubIcon,
-		href: "https://github.com/better-auth/better-auth",
+		href: "https://github.com/abushaidislam/Qodewk",
 		cta: "View on GitHub",
 		members: "Open Source",
 		label: "repository",
@@ -189,7 +189,7 @@ const platforms = [
 	{
 		name: "Reddit",
 		icon: RedditIcon,
-		href: "https://reddit.com/r/better_auth",
+		href: "https://reddit.com/r/qodewk",
 		cta: "Join Subreddit",
 		members: "1.2K+",
 		label: "members",
@@ -197,9 +197,9 @@ const platforms = [
 	{
 		name: "X (Twitter)",
 		icon: XIcon,
-		href: "https://x.com/better_auth",
+		href: "https://x.com/qodewk",
 		cta: "Follow on X",
-		members: "@better_auth",
+		members: "@qodewk",
 		label: "handle",
 	},
 ];

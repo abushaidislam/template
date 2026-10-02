@@ -1,0 +1,56 @@
+{
+  "name": "qodewk",
+  "version": "0.4.0",
+  "description": "Universal telemetry and digital receipt generator for the AI coding agent era",
+  "type": "module",
+  "bin": {
+    "qodewk": "dist/index.cjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "ai",
+    "telemetry",
+    "git",
+    "receipt",
+    "claude",
+    "cursor",
+    "copilot",
+    "developer-receipt",
+    "llm-cost"
+  ],
+  "author": "abushaidislam",
+  "license": "MIT",
+  "homepage": "https://qodewk.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abushaidislam/Qodewk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abushaidislam/Qodewk/issues"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@qodewk/core": "workspace:*",
+    "@qodewk/pricing": "workspace:*",
+    "@qodewk/protocol": "workspace:*",
+    "@types/node": "^22.13.10",
+    "tsup": "^8.5.1",
+    "typescript": "^5.8.2"
+  }
+}

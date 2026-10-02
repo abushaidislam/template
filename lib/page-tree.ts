@@ -41,7 +41,7 @@ export function isPathWithinFolderIndex(
 
 export function pageTreePlugin(): LoaderPlugin {
 	return {
-		name: "better-auth:page-tree",
+		name: "qodewk:page-tree",
 		transformPageTree: {
 			file(node, file) {
 				const sourceFile = file ? this.storage.read(file) : undefined;
