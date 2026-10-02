@@ -25,7 +25,7 @@
     "@ai-sdk/openai": "^3.0.73",
     "@ai-sdk/openai-compatible": "^2.0.51",
     "@ai-sdk/react": "^3.0.210",
-    "@qodewk/utils": "catalog:",
+    "@better-auth/utils": "catalog:",
     "@better-fetch/fetch": "catalog:",
     "@hookform/resolvers": "^5.4.0",
     "@radix-ui/react-accordion": "^1.2.14",
