@@ -108,7 +108,10 @@ export async function resolveGitSha(git: SimpleGit, ref: string): Promise<string
   throw new Error(`Unable to resolve git reference '${ref}' to a valid commit SHA.`);
 }
 
-export async function detectDefaultBaseBranch(git: SimpleGit): Promise<string> {
+export async function detectDefaultBaseBranch(
+  gitOrPath: SimpleGit | string = process.cwd()
+): Promise<string> {
+  const git: SimpleGit = typeof gitOrPath === "string" ? simpleGit(gitOrPath) : gitOrPath;
   const candidates = ["origin/main", "main", "origin/master", "master"];
   for (const c of candidates) {
     try {

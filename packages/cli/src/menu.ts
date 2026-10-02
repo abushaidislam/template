@@ -251,8 +251,7 @@ export async function runInteractiveMenu(): Promise<void> {
 
         let defaultBase = "origin/main";
         try {
-          const { simpleGit } = await import("simple-git");
-          defaultBase = await detectDefaultBaseBranch(simpleGit(process.cwd()));
+          defaultBase = await detectDefaultBaseBranch(process.cwd());
         } catch {}
 
         const base = await askLine(
