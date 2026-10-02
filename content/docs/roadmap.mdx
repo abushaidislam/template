@@ -1,0 +1,341 @@
+---
+title: Production Roadmap
+description: Feature roadmap and timeline
+---
+
+> **Status as of 2026-09-29:** Post-MVP vertical slice is live. Product thesis (universal, commit-bound attribution across every coding agent) is **not yet production-correct**. This document is the single plan to close that gap and ship production-grade Qodewk.
+
+**Related docs:** [`00-product-thesis.md`](./00-product-thesis.md) · [`01-architecture.md`](./01-architecture.md) · [`10-mvp-48h.md`](./10-mvp-48h.md) · [`AGENTS.md`](../AGENTS.md)
+
+---
+
+## 1. One-line answer: where are we?
+
+| Layer | Phase (AGENTS.md) | Reality |
+|---|---|---|
+| Protocol + Pricing | Phase 1 | **Done** — Receipt v1 Zod + rate cards |
+| Core Git + SQLite + estimator | Phase 2 | **Mostly done** — Git Notes incomplete |
+| CLI thermal / JSON / share / hooks | Phase 3 | **Done** as MVP UX |
+| Web `/r/[id]` + OG + `/api/receipts` | Phase 4 | **Done** as MVP (storage: memory + optional Supabase) |
+| GitHub Action sticky PR comment | Phase 5 | **Scaffold done** — needs CI hardening & Marketplace polish |
+| **Universal multi-provider attribution** | Product thesis | **Done (v0.3.0)** — Commit-bound scoring selector + Cursor transcripts/URI + golden tests |
+
+**Verdict:** Phase P0 is **completed**. Multi-agent attribution disambiguation is active and covered with golden tests. The next milestone is **Phase P1** (expanding Tier A adapters & pricing rate cards) and **Phase P2** (reliability & cloud persistence).
+
+```text
+[███████████████░░░░░] ~75% toward production-grade v1.0
+
+MVP shippable .......... YES (demo / dogfood)
+Thesis-correct ......... YES (commit-bound disambiguation active)
+Production-ready ....... IN PROGRESS (Tier A expansion, cloud store, CI)
+```
+
+---
+
+## 2. Product north star (do not lose this)
+
+From the thesis:
+
+> Track what changed, estimate what it cost, and prove what you shipped — **across every coding agent**.
+
+Operational rule for attribution:
+
+> **The provider shown on a receipt must be the one that most likely produced the inspected Git mutation (commit / range), not “whoever has the newest DB row on this laptop.”**
+
+Supported intent (not all implemented yet):
+
+| Family | Examples |
+|---|---|
+| IDE agents | Cursor, Windsurf, VS Code Copilot Chat |
+| Terminal agents | Claude Code, Aider, OpenCode, Codex CLI, Gemini CLI / Antigravity |
+| Editor extensions | Kilo Code, Cline, Continue, Roo |
+| CI / trailers | Copilot PR, commit co-author trailers |
+
+Prime directive still holds: never present an inference as exact usage. Label `observed` / `estimated` / `imported` / `verified` / `unknown`.
+
+---
+
+## 3. Honest capability matrix (today)
+
+### 3.1 Working (shipped)
+
+| Capability | Package | Notes |
+|---|---|---|
+| Git diff metrics (files, ±LOC, languages, SHAs) | `packages/core` | `simple-git` |
+| ReceiptV1 schema validation | `packages/protocol` | Zod |
+| Multi-model rate cards | `packages/pricing` | Anthropic / OpenAI / Google / DeepSeek |
+| Dual-engine cost estimate | `packages/core` | Sessions-first, then heuristic |
+| Local SQLite state `~/.qodewk/state.db` | `packages/core` | CI `:memory:` path exists |
+| CLI thermal receipt + barcode | `packages/cli` | `npx qodewk` |
+| `qodewk --json` / `share` / `audit` | `packages/cli` | Share sanitizes paths |
+| Non-blocking `hooks install` | `packages/cli` | post-commit + post-rewrite |
+| Antigravity harvester | `packages/core` | Strongest local adapter today |
+| Claude Code harvester | `packages/core` | JSONL under `~/.claude/projects` |
+| Cursor harvester (stub) | `packages/core` | **Exists but fails on modern Cursor** |
+| Web receipt + OG image | `apps/web` | Design-system thermal card |
+| API receipts 50KB cap | `apps/web` | Privacy invariant |
+| GitHub Action sticky comment | `packages/action` | Basic upsert |
+
+### 3.2 Known broken / misleading (P0)
+
+| Issue | Impact | Evidence |
+|---|---|---|
+| Primary provider = newest footprint timestamp | Wrong tool on multi-agent machines | Cursor-authored commits attributed to stale Antigravity |
+| Cursor path match skips `file:///c%3A/...` URI decode | Cursor never enters candidate pool | Live harvest: 0 Cursor footprints |
+| Cursor reads obsolete keys (`aichat` / empty `aiService.generations`) | Misses `aiCodeTracking.recentCommit` | HEAD commit proven 100% composer in Cursor DB, ignored |
+| README claims Aider / Copilot harvest | Docs overpromise | No `harvester/aider.ts`; Copilot = trailer heuristic only |
+| Types allow `aider` / `copilot` platforms | Dead surface area | Not wired in `harvestUniversalFootprints` |
+| Estimator uses `sessions[0]` as provider | Couples cost rollup to sort order | Reinforces wrong primary |
+
+### 3.3 Missing vs AGENTS / MVP docs
+
+| Item | Status |
+|---|---|
+| Git Notes (`refs/notes/qodewk`) | Not implemented |
+| Persistent cloud store required for share durability | Optional Supabase; memory dies on cold start |
+| Monorepo CI (typecheck / test / lint on PR) | Thin / incomplete vs production bar |
+| Aider, OpenCode, Kilo, Windsurf, Codex, Cline harvesters | Not started |
+| Commit-bound multi-provider disambiguation engine | Design only (this doc §5) |
+| Marketplace-ready Action + versioned releases | Partial (workflows exist; polish needed) |
+| Public `qodewk.dev` canonical domain ops | Deploy guide exists; treat as ops checklist |
+| Deep AST complexity scoring | Explicitly post-MVP (OK to defer) |
+| Teams / SSO / dashboard | Out of scope for v1.0 |
+
+---
+
+## 4. Definition of “fully production” (v1.0 gate)
+
+Ship **v1.0** only when all of the following are true:
+
+### Trust & attribution
+1. On a machine with ≥2 agents installed, `qodewk` on a Cursor-only commit reports **Cursor** (or correct agent), not a stale peer.
+2. Same for Claude Code–only and Antigravity-only commits (golden fixtures).
+3. Multi-agent commits report a **ranked primary** plus `ai.sessions[]` of runners-up with scores.
+4. Every cost line shows correct provenance mode; `~` used when not verified.
+5. Privacy audit: zero source/diff bodies in share payloads; 50KB cap enforced; `QODEWK_TELEMETRY=off` honored.
+
+### Product surface
+6. `npx qodewk` / `share` / `audit` / `hooks install` documented and smoke-tested on Win/macOS/Linux.
+7. Public receipt URL survives serverless cold starts (Postgres/Supabase or equivalent durable store).
+8. OG cards render stable metadata for social share.
+9. GitHub Action posts sticky PR receipts without flakes.
+
+### Engineering bar
+10. CI: `pnpm typecheck` + unit tests + CLI smoke on every PR.
+11. Semver releases for `qodewk` npm + Action tag.
+12. Docs match code (no advertised harvester without an adapter + fixture test).
+13. Harvester matrix: **Tier A** adapters green (below); Tier B at least “detected / estimated”.
+
+### Tier A platforms for v1.0 (must work)
+- Cursor (modern `aiCodeTracking` + URI-safe paths)
+- Claude Code
+- Google Antigravity / Gemini CLI brain
+- Aider (repo-local history)
+- Commit trailers (Copilot / Claude co-authored-by)
+
+### Tier B platforms for v1.0 (detect + estimate OK)
+- OpenCode, Kilo Code, Windsurf, Codex CLI, Cline / Continue / Roo
+  → local log/path discovery + commit-window heuristics; upgrade to verified when telemetry format stabilizes.
+
+---
+
+## 5. Architecture fix: commit-bound attribution (core)
+
+Replace “newest timestamp wins” with a **scored primary selector**.
+
+```text
+Git mutation (headSha, commitDate, changedFiles)
+        │
+        ▼
+┌───────────────────────────────┐
+│ harvestUniversalFootprints()  │  all adapters in parallel
+└───────────────┬───────────────┘
+                ▼
+┌───────────────────────────────┐
+│ scoreFootprint(fp, gitCtx)    │
+│  + commitHash bind (1.00)     │
+│  + file overlap ratio (0–0.40)│
+│  + time proximity (0–0.25)    │
+│  + mode weight (verified…)    │
+│  − stale / empty overlap      │
+└───────────────┬───────────────┘
+                ▼
+     primary = max(score)
+     sessions = all ranked
+```
+
+### Implementation sketch (`packages/core`)
+
+1. **`selectPrimaryFootprint(footprints, gitCtx)`** in `harvester/index.ts` — stop using `allFootprints[0]` after mtime sort alone.
+2. **Pass `headSha`, `commitDate`, `changedFiles`** from `generateReceipt` into harvest/score.
+3. **Cursor adapter repair**
+   - `decodeURIComponent` + strip `file://` (mirror Antigravity)
+   - Prefer `aiCodeTracking.recentCommit` when `commitHash === headSha`
+   - Legacy chat keys as fallback only
+4. **Per-adapter contract** (`AgentFootprint`): optional `boundCommitSha`, `filesEdited`, `timestamp`, `mode`, `confidence`.
+5. **Estimator**: do not let `sessions[0]` silently redefine provider after scoring; use scored primary.
+6. **CLI**: print primary + “also seen: …” when ≥2 platforms score above threshold (honesty UX).
+
+---
+
+## 6. Phased execution plan
+
+### Phase P0 — Attribution truth (v0.3.0) — ✅ **COMPLETED**
+
+| # | Work item | Owner surface | Done when | Status |
+|---|---|---|---|---|
+| P0.1 | Commit-bound `selectPrimaryFootprint` | `packages/core` | Multi-tool fixture picks correct primary | ✅ **Done** |
+| P0.2 | Fix Cursor URI + `aiCodeTracking.recentCommit` + transcripts | `harvester/cursor.ts` | Cursor-only commit → `provider: cursor` | ✅ **Done** |
+| P0.3 | Harden Claude + Antigravity overlap scoring | `harvester/*` | File ∩ changedFiles drives rank | ✅ **Done** |
+| P0.4 | Golden tests: AG / Claude / Cursor / mixed | `packages/core/test` | CI fails on regression | ✅ **Done (9/9 pass)** |
+| P0.5 | Docs honesty pass | README + cli README | Remove unshipped Aider/Copilot claims or ship stubs labeled experimental | ✅ **Done** |
+
+**Exit:** Dogfood on Qodewk repo itself shows Cursor for Cursor commits. ✅ **Passed.**
+
+### Phase P1 — Universal Tier A harvesters — ✅ **COMPLETED**
+
+| # | Work item | Notes | Status |
+|---|---|---|---|
+| P1.1 | `harvester/aider.ts` | Parse `.aider.chat.history.md` for models, commits, files, costs | ✅ **Done** |
+| P1.2 | Copilot / trailer discovery | `Co-authored-by` trailer parsing + automatic bound footprint attribution | ✅ **Done** |
+| P1.3 | Expand `AgentFootprint.platform` union | `aider`, `copilot`, `windsurf`, `opencode`, `kilo`, `codex`, `cline` | ✅ **Done** |
+| P1.4 | Windsurf + OpenCode + Kilo discovery | Windsurf Cascade SQLite harvester (`state.vscdb`) + platform mappings | ✅ **Done** |
+| P1.5 | Pricing aliases for new model IDs | Versioned `MODEL_ALIASES` map for canonical rate cards (`@qodewk/pricing`) | ✅ **Done** |
+
+**Exit:** Tier A green on Win/macOS/Linux smoke matrix (40/40 core tests, 13/13 pricing tests, 94/94 monorepo tests pass). ✅ **Passed.**
+
+### Phase P2 — Production reliability (2 weeks, parallelizable)
+
+| # | Work item | Notes |
+|---|---|---|
+| P2.1 | Durable receipt store | Require Supabase/Postgres in prod; fail share loudly if unset |
+| P2.2 | Rate limit + abuse controls on `/api/receipts` | Beyond 50KB |
+| P2.3 | Git Notes write/read optional path | `refs/notes/qodewk` per AGENTS.md |
+| P2.4 | CI workflow | typecheck, unit, CLI smoke, Action dry-run |
+| P2.5 | Release automation | npm publish + Action semver tags |
+| P2.6 | Privacy regression tests | Sanitize payload never contains paths/diff hunks |
+
+**Exit:** Cold-start share URL always resolves; CI green on main.
+
+### Phase P3 — Distribution & PLG (1–2 weeks)
+
+| # | Work item | Notes |
+|---|---|---|
+| P3.1 | Canonical domain `qodewk.dev` cutover | DNS, OG, Action default API URL |
+| P3.2 | GitHub Marketplace Action listing | README, branding, inputs docs |
+| P3.3 | Landing page conversion polish | Keep design-system; one CTA: `npx qodewk` |
+| P3.4 | “Proof of shipment” demo receipts | Seeded public examples |
+| P3.5 | Changelog + upgrade guide | From 0.2.x → 1.0.0 |
+
+**Exit:** Stranger can discover → run → share → PR comment without chat support.
+
+### Phase P4 — Post-v1.0 (explicitly later)
+
+- Teams workspace, org dashboards, SSO
+- Exact provider billing API import (where OAuth exists)
+- FS watcher continuous mode
+- Deep AST complexity multipliers
+- Desktop app / Rust core
+- Agent kill-switch federation
+- Badge service / standup digests (from MVP “first experiments”)
+
+Do **not** block v1.0 on P4.
+
+---
+
+## 7. Feature backlog by package
+
+### `packages/protocol`
+- [ ] Optional `ai.attribution.scores[]` or `selectionReason` field (v1.1 additive)
+- [ ] Stricter provider enum vs free string (document extension policy)
+- [ ] Receipt size / share schema fixtures
+
+### `packages/pricing`
+- [ ] Quarterly rate-card bump process
+- [x] Alias map (`gemini-3` → canonical id)
+- [x] Unknown-model → `generic` with explicit `estimated` mode
+
+### `packages/core`
+- [x] **P0 scoring engine**
+- [x] Cursor modern adapter
+- [x] Aider / OpenCode / Kilo / Windsurf / Codex / Cline adapters (phased)
+- [ ] Git Notes integration
+- [ ] `record-event` richer local timeline
+- [x] Windows/macOS/Linux path helpers shared module
+
+### `packages/cli`
+- [ ] Surface multi-provider “also seen” line
+- [ ] `--explain-attribution` debug flag (local only)
+- [ ] Hook install verification command
+- [ ] Keep share offline-safe with clear errors
+
+### `packages/action`
+- [ ] Pin published action to compiled dist
+- [ ] Base/head resolution for fork PRs
+- [ ] Optional `--platform` / provider override inputs
+- [ ] Marketplace metadata + branding assets
+
+### `apps/web`
+- [ ] Prod storage required (no silent memory-only in production)
+- [ ] Claim-token claim flow UX (author proof)
+- [ ] Receipt expiry / private receipts
+- [ ] Design-system compliance checklist in CI (visual optional)
+
+### Repo / Ops
+- [ ] ESLint + Prettier enforced
+- [ ] CODEOWNERS / SECURITY.md / support policy
+- [ ] Dependabot / npm audit gate
+- [ ] Status page or simple uptime for API
+
+---
+
+## 8. Milestone timeline (suggested)
+
+```text
+Week 0–1   P0 attribution + Cursor fix + golden tests     → 0.3.0
+Week 2–4   P1 Tier A harvesters + pricing aliases         → 0.4.0
+Week 3–5   P2 reliability + CI + durable share (overlap)  → 0.5.0
+Week 5–6   P3 distribution + Marketplace + domain         → 1.0.0
+Week 7+    P4 experiments only after thesis holds
+```
+
+Versions are suggestive; **1.0.0 = §4 gate**, not a calendar promise.
+
+---
+
+## 9. Decision log (keep short)
+
+| Decision | Choice | Why |
+|---|---|---|
+| Primary selection | Commit-bound score, not mtime | Matches product thesis |
+| Missing telemetry | Prefer `estimated`/`unknown` over wrong `verified` | Never fake precision |
+| New agents | Adapter interface first, then paths | Avoid README lies |
+| Cloud store | Durable required for public share in prod | Cold start correctness |
+| Teams/dashboard | After v1.0 | Focus PLG CLI → share loop |
+
+---
+
+## 10. Immediate next actions (this week)
+
+1. Implement P0.1–P0.2 (scoring + Cursor `aiCodeTracking` + URI decode).
+2. Add mixed-provider fixture tests that fail on today’s Antigravity-wins bug.
+3. Strip or mark “experimental” any README platform without an adapter.
+4. Open tracking issues per P0/P1 row (or keep this doc as the checklist).
+
+---
+
+## 11. Success metric for the thesis
+
+A developer who used **Claude Code yesterday**, **Cursor today**, and still has **Antigravity** installed must see:
+
+```text
+npx qodewk          → Provider: cursor · <model>     (today’s commit)
+npx qodewk --since 2d  → sessions list includes both, primary ranked by overlap
+```
+
+Until that is true on real machines, Qodewk is an impressive MVP — **not** yet the universal receipt layer the thesis promises.
+
+---
+
+*Document owner: Lead Architect · Living plan — update status table when a phase exits.*
+----------

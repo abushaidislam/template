@@ -12,8 +12,8 @@ export interface CommunityAdapter {
 
 export const communityAdapters: CommunityAdapter[] = [
 	{
-		name: "@convex-dev/better-auth",
-		url: "https://github.com/get-convex/better-auth",
+		name: "@convex-dev/qodewk",
+		url: "https://github.com/get-convex/qodewk",
 		database: "Convex",
 		databaseUrl: "https://www.convex.dev/",
 		author: {
@@ -23,8 +23,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "surreal-better-auth",
-		url: "https://github.com/oskar-gmerek/surreal-better-auth",
+		name: "surreal-qodewk",
+		url: "https://github.com/oskar-gmerek/surreal-qodewk",
 		database: "SurrealDB",
 		databaseUrl: "https://surrealdb.com/",
 		author: {
@@ -34,8 +34,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "surrealdb-better-auth",
-		url: "https://github.com/Necmttn/surrealdb-better-auth",
+		name: "surrealdb-qodewk",
+		url: "https://github.com/Necmttn/surrealdb-qodewk",
 		database: "SurrealDB",
 		databaseUrl: "https://surrealdb.com/",
 		author: {
@@ -45,8 +45,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "better-auth-surrealdb",
-		url: "https://github.com/msanchezdev/better-auth-surrealdb",
+		name: "qodewk-surrealdb",
+		url: "https://github.com/msanchezdev/qodewk-surrealdb",
 		database: "SurrealDB",
 		databaseUrl: "https://surrealdb.com/",
 		author: {
@@ -67,8 +67,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@delmaredigital/payload-better-auth",
-		url: "https://github.com/delmaredigital/payload-better-auth",
+		name: "@delmaredigital/payload-qodewk",
+		url: "https://github.com/delmaredigital/payload-qodewk",
 		database: "Payload CMS",
 		databaseUrl: "https://payloadcms.com/",
 		author: {
@@ -78,8 +78,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@hedystia/better-auth-typeorm",
-		url: "https://github.com/Zastinian/better-auth-typeorm",
+		name: "@hedystia/qodewk-typeorm",
+		url: "https://github.com/Zastinian/qodewk-typeorm",
 		database: "TypeORM",
 		databaseUrl: "https://typeorm.io/",
 		author: {
@@ -89,8 +89,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "better-auth-instantdb",
-		url: "https://github.com/daveyplate/better-auth-instantdb",
+		name: "qodewk-instantdb",
+		url: "https://github.com/daveyplate/qodewk-instantdb",
 		database: "InstantDB",
 		databaseUrl: "https://www.instantdb.com/",
 		author: {
@@ -100,8 +100,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@nerdfolio/remult-better-auth",
-		url: "https://github.com/nerdfolio/remult-better-auth",
+		name: "@nerdfolio/remult-qodewk",
+		url: "https://github.com/nerdfolio/remult-qodewk",
 		database: "Remult",
 		databaseUrl: "https://remult.dev/",
 		author: {
@@ -111,8 +111,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "pocketbase-better-auth",
-		url: "https://github.com/LightInn/pocketbase-better-auth",
+		name: "pocketbase-qodewk",
+		url: "https://github.com/LightInn/pocketbase-qodewk",
 		database: "PocketBase",
 		databaseUrl: "https://pocketbase.io/",
 		author: {
@@ -122,8 +122,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "better-auth-firestore",
-		url: "https://github.com/yultyyev/better-auth-firestore",
+		name: "qodewk-firestore",
+		url: "https://github.com/yultyyev/qodewk-firestore",
 		database: "Firebase Firestore",
 		databaseUrl: "https://firebase.google.com/docs/firestore",
 		author: {
@@ -133,8 +133,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@zenstackhq/better-auth",
-		url: "https://github.com/zenstackhq/zenstack/tree/main/packages/auth-adapters/better-auth",
+		name: "@zenstackhq/qodewk",
+		url: "https://github.com/zenstackhq/zenstack/tree/main/packages/auth-adapters/qodewk",
 		database: "ZenStack",
 		databaseUrl: "https://zenstack.dev",
 		author: {
@@ -144,8 +144,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@strapi-community/plugin-better-auth",
-		url: "https://github.com/strapi-community/plugin-better-auth",
+		name: "@strapi-community/plugin-qodewk",
+		url: "https://github.com/strapi-community/plugin-qodewk",
 		database: "Strapi CMS",
 		databaseUrl: "https://strapi.io/",
 		author: {
@@ -155,8 +155,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "neo4j-better-auth",
-		url: "https://github.com/florianamette/better-auth-neo4j",
+		name: "neo4j-qodewk",
+		url: "https://github.com/florianamette/qodewk-neo4j",
 		database: "Neo4j",
 		databaseUrl: "https://neo4j.com/",
 		author: {
@@ -166,8 +166,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@lubiah/better-auth-mikro-orm",
-		url: "https://github.com/lubiah/better-auth-mikro-orm",
+		name: "@lubiah/qodewk-mikro-orm",
+		url: "https://github.com/lubiah/qodewk-mikro-orm",
 		database: "MikroORM",
 		databaseUrl: "https://mikro-orm.io/",
 		author: {
@@ -177,8 +177,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "better-auth-mikro-orm",
-		url: "https://github.com/octet-stream/better-auth-mikro-orm",
+		name: "qodewk-mikro-orm",
+		url: "https://github.com/octet-stream/qodewk-mikro-orm",
 		database: "MikroORM",
 		databaseUrl: "https://mikro-orm.io/",
 		author: {
@@ -188,8 +188,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@proofkit/better-auth",
-		url: "https://github.com/proofsh/proofkit/tree/main/packages/better-auth",
+		name: "@proofkit/qodewk",
+		url: "https://github.com/proofsh/proofkit/tree/main/packages/qodewk",
 		database: "FileMaker OData",
 		databaseUrl: "https://www.claris.com/filemaker/",
 		author: {
@@ -199,8 +199,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@datar-platform/better-auth-dynamodb",
-		url: "https://github.com/datar-platform/better-auth-dynamodb",
+		name: "@datar-platform/qodewk-dynamodb",
+		url: "https://github.com/datar-platform/qodewk-dynamodb",
 		database: "DynamoDB",
 		databaseUrl: "https://aws.amazon.com/dynamodb/",
 		author: {
@@ -210,8 +210,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@bjorntech/betterauth-dynamodb",
-		url: "https://github.com/bjorntech/betterauth-dynamodb",
+		name: "@bjorntech/Qodewk-dynamodb",
+		url: "https://github.com/bjorntech/Qodewk-dynamodb",
 		database: "DynamoDB",
 		databaseUrl: "https://aws.amazon.com/dynamodb/",
 		author: {
@@ -221,8 +221,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "better-auth-azure-cosmos",
-		url: "https://github.com/9hsein5/better-auth-azure-cosmos",
+		name: "qodewk-azure-cosmos",
+		url: "https://github.com/9hsein5/qodewk-azure-cosmos",
 		database: "Azure Cosmos DB",
 		databaseUrl: "https://learn.microsoft.com/azure/cosmos-db/nosql/",
 		author: {
@@ -232,8 +232,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "better-auth-mongoose",
-		url: "https://github.com/AshwinSathian/better-auth-mongoose",
+		name: "qodewk-mongoose",
+		url: "https://github.com/AshwinSathian/qodewk-mongoose",
 		database: "Mongoose",
 		databaseUrl: "https://mongoosejs.com",
 		author: {
@@ -243,8 +243,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@ilbertt/better-auth-bun-sql",
-		url: "https://github.com/ilbertt/better-auth-bun-sql",
+		name: "@ilbertt/qodewk-bun-sql",
+		url: "https://github.com/ilbertt/qodewk-bun-sql",
 		database: "Bun SQL",
 		databaseUrl: "https://bun.com/docs/api/sql",
 		author: {
@@ -254,8 +254,8 @@ export const communityAdapters: CommunityAdapter[] = [
 		},
 	},
 	{
-		name: "@a77ay/better-auth-mikro-orm",
-		url: "https://github.com/a77ay/better-auth-mikro-orm",
+		name: "@a77ay/qodewk-mikro-orm",
+		url: "https://github.com/a77ay/qodewk-mikro-orm",
 		database: "MikroORM",
 		databaseUrl: "https://mikro-orm.io/",
 		author: {

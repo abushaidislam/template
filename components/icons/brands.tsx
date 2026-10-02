@@ -2,7 +2,7 @@ import type { SVGProps } from "react";
 import { cn } from "@/lib/utils";
 
 export const brandIcons = {
-	betterAuthWordmark: ({ className }: { className?: string }) => {
+	QodewkWordmark: ({ className }: { className?: string }) => {
 		return (
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@ export const brandIcons = {
 			</svg>
 		);
 	},
-	betterAuthMark: ({ className }: { className?: string }) => {
+	QodewkMark: ({ className }: { className?: string }) => {
 		return (
 			<svg
 				xmlns="http://www.w3.org/2000/svg"

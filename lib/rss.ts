@@ -6,7 +6,7 @@ export function getRSS() {
 	const feed = new Feed({
 		title: "Qodewk Blog",
 		description: "Latest updates, articles, and insights about Qodewk",
-		generator: "better-auth",
+		generator: "qodewk",
 		id: `${baseUrl}blog`,
 		link: `${baseUrl}blog`,
 		language: "en",

@@ -124,7 +124,7 @@ function searchIndex(entries: SearchEntry[], query: string) {
 	return scored.slice(0, MAX_SEARCH_RESULTS);
 }
 
-const GITHUB_REPO = "better-auth/better-auth";
+const GITHUB_REPO = "abushaidislam/Qodewk";
 const GITHUB_API = "https://api.github.com";
 const MAX_CODE_SEARCH_RESULTS = 8;
 const MAX_FILE_CONTENT_LENGTH = 12_000;
@@ -380,7 +380,7 @@ export async function POST(req: Request) {
 							.string()
 							.optional()
 							.describe(
-								"Optional path filter to narrow search to a directory or file pattern, e.g. 'packages/better-auth/src' or 'packages/cli'",
+								"Optional path filter to narrow search to a directory or file pattern, e.g. 'packages/qodewk/src' or 'packages/cli'",
 							),
 					}),
 					execute: async ({ query, path }) => {
@@ -394,7 +394,7 @@ export async function POST(req: Request) {
 						path: z
 							.string()
 							.describe(
-								"The file path in the repository, e.g. 'packages/better-auth/src/api/routes/session.ts'",
+								"The file path in the repository, e.g. 'packages/qodewk/src/api/routes/session.ts'",
 							),
 					}),
 					execute: async ({ path }) => {

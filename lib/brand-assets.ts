@@ -1,23 +1,23 @@
 export const brandAssetPaths = {
-	assetsZip: "/branding/better-auth-brand-assets.zip",
+	assetsZip: "/branding/qodewk-brand-assets.zip",
 	mark: {
 		light: {
-			svg: "/branding/svg/better-auth-mark-light.svg",
-			png: "/branding/png/better-auth-mark-light.png",
+			svg: "/branding/svg/qodewk-mark-light.svg",
+			png: "/branding/png/qodewk-mark-light.png",
 		},
 		dark: {
-			svg: "/branding/svg/better-auth-mark-dark.svg",
-			png: "/branding/png/better-auth-mark-dark.png",
+			svg: "/branding/svg/qodewk-mark-dark.svg",
+			png: "/branding/png/qodewk-mark-dark.png",
 		},
 	},
 	wordmark: {
 		light: {
-			svg: "/branding/svg/better-auth-wordmark-light.svg",
-			png: "/branding/png/better-auth-wordmark-light.png",
+			svg: "/branding/svg/qodewk-wordmark-light.svg",
+			png: "/branding/png/qodewk-wordmark-light.png",
 		},
 		dark: {
-			svg: "/branding/svg/better-auth-wordmark-dark.svg",
-			png: "/branding/png/better-auth-wordmark-dark.png",
+			svg: "/branding/svg/qodewk-wordmark-dark.svg",
+			png: "/branding/png/qodewk-wordmark-dark.png",
 		},
 	},
 } as const;

@@ -4,7 +4,7 @@ import { Client } from "typesense";
 import type { DocumentRecord } from "typesense-fumadocs-adapter";
 import { sync } from "typesense-fumadocs-adapter";
 
-const typesenseCollectionName = "better-auth-docs";
+const typesenseCollectionName = "qodewk-docs";
 
 export function getTypesenseSyncSkipReason(env: NodeJS.ProcessEnv) {
 	const url = env.NEXT_PUBLIC_TYPESENSE_SERVER_URL;

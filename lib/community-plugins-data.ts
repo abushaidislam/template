@@ -11,8 +11,8 @@ export interface CommunityPlugin {
 
 export const communityPlugins: CommunityPlugin[] = [
 	{
-		name: "@dymo-api/better-auth",
-		url: "https://github.com/TPEOficial/dymo-api-better-auth",
+		name: "@dymo-api/qodewk",
+		url: "https://github.com/TPEOficial/dymo-api-qodewk",
 		description:
 			"Sign Up Protection and validation of disposable emails (the world's largest database with nearly 14 million entries).",
 		author: {
@@ -22,8 +22,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-harmony",
-		url: "https://github.com/gekorm/better-auth-harmony/",
+		name: "qodewk-harmony",
+		url: "https://github.com/gekorm/qodewk-harmony/",
 		description:
 			"Email & phone normalization and additional validation, blocking over 55,000 temporary email domains.",
 		author: {
@@ -33,8 +33,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "validation-better-auth",
-		url: "https://github.com/Daanish2003/validation-better-auth",
+		name: "validation-qodewk",
+		url: "https://github.com/Daanish2003/validation-qodewk",
 		description:
 			"Validate API request using any validation library (e.g., Zod, Yup)",
 		author: {
@@ -44,10 +44,10 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-localization",
-		url: "https://github.com/marcellosso/better-auth-localization",
+		name: "qodewk-localization",
+		url: "https://github.com/marcellosso/qodewk-localization",
 		description:
-			"Localize and customize better-auth messages with easy translation and message override support.",
+			"Localize and customize qodewk messages with easy translation and message override support.",
 		author: {
 			name: "marcellosso",
 			github: "marcellosso",
@@ -55,8 +55,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-attio-plugin",
-		url: "https://github.com/tobimori/better-auth-attio-plugin",
+		name: "qodewk-attio-plugin",
+		url: "https://github.com/tobimori/qodewk-attio-plugin",
 		description: "Sync your products Qodewk users & workspaces with Attio",
 		author: {
 			name: "tobimori",
@@ -65,8 +65,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-cloudflare",
-		url: "https://github.com/zpg6/better-auth-cloudflare",
+		name: "qodewk-cloudflare",
+		url: "https://github.com/zpg6/qodewk-cloudflare",
 		description:
 			"Seamlessly integrate with Cloudflare Workers, D1, Hyperdrive, KV, R2, and geolocation services. Includes CLI for project generation, automated resource provisioning on Cloudflare, and database migrations. Supports Next.js, Hono, and more!",
 		author: {
@@ -76,10 +76,10 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "expo-better-auth-passkey",
-		url: "https://github.com/kevcube/expo-better-auth-passkey",
+		name: "expo-qodewk-passkey",
+		url: "https://github.com/kevcube/expo-qodewk-passkey",
 		description:
-			"Better-auth client plugin for using passkeys on mobile platforms in expo apps. Supports iOS, macOS, Android (and web!) by wrapping the existing better-auth passkey client plugin.",
+			"qodewk client plugin for using passkeys on mobile platforms in expo apps. Supports iOS, macOS, Android (and web!) by wrapping the existing qodewk passkey client plugin.",
 		author: {
 			name: "kevcube",
 			github: "kevcube",
@@ -87,8 +87,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-credentials-plugin",
-		url: "https://github.com/erickweil/better-auth-credentials-plugin",
+		name: "qodewk-credentials-plugin",
+		url: "https://github.com/erickweil/qodewk-credentials-plugin",
 		description: "LDAP authentication plugin for Qodewk.",
 		author: {
 			name: "erickweil",
@@ -97,8 +97,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-opaque",
-		url: "https://github.com/TheUntraceable/better-auth-opaque",
+		name: "qodewk-opaque",
+		url: "https://github.com/TheUntraceable/qodewk-opaque",
 		description:
 			"Provides database-breach resistant authentication using the zero-knowledge OPAQUE protocol.",
 		author: {
@@ -108,8 +108,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-firebase-auth",
-		url: "https://github.com/yultyyev/better-auth-firebase-auth",
+		name: "qodewk-firebase-auth",
+		url: "https://github.com/yultyyev/qodewk-firebase-auth",
 		description:
 			"Firebase Authentication plugin for Qodewk with built-in email service, Google Sign-In, and password reset functionality.",
 		author: {
@@ -119,8 +119,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-university",
-		url: "https://github.com/LuyxLLC/better-auth-university",
+		name: "qodewk-university",
+		url: "https://github.com/LuyxLLC/qodewk-university",
 		description:
 			"University plugin for allowing only specific email domains to be passed through. Includes a University model with name and domain.",
 		author: {
@@ -130,8 +130,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-paystack",
-		url: "https://github.com/alexasomba/better-auth-paystack",
+		name: "qodewk-paystack",
+		url: "https://github.com/alexasomba/qodewk-paystack",
 		description:
 			"Production-ready Paystack billing plugin for Qodewk with native and locally managed subscriptions, one-time payments, organization billing, trials, secure webhooks, automated limits, and more.",
 		author: {
@@ -141,8 +141,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-flutterwave",
-		url: "https://github.com/alexasomba/better-auth-flutterwave",
+		name: "qodewk-flutterwave",
+		url: "https://github.com/alexasomba/qodewk-flutterwave",
 		description:
 			"Flutterwave plugin for Qodewk — integrates Flutterwave payments, subscriptions, organization billing, marketplace split payments, webhooks, refunds, reconciliation, and more.",
 		author: {
@@ -152,8 +152,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-solana-payments",
-		url: "https://github.com/alexasomba/better-auth-solana-payments",
+		name: "qodewk-solana-payments",
+		url: "https://github.com/alexasomba/qodewk-solana-payments",
 		description:
 			"One-time Solana payment integration for Qodewk with Solana Pay checkout, server-side transfer verification, payment tracking, organization payments, and more.",
 		author: {
@@ -163,8 +163,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-lark",
-		url: "https://github.com/uselark/better-auth-lark",
+		name: "qodewk-lark",
+		url: "https://github.com/uselark/qodewk-lark",
 		description:
 			"Lark billing plugin that automatically creates customers and subscribes them to free plans on signup.",
 		author: {
@@ -174,8 +174,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "stargate-better-auth",
-		url: "https://github.com/neiii/stargate-better-auth",
+		name: "stargate-qodewk",
+		url: "https://github.com/neiii/stargate-qodewk",
 		description:
 			"Gate access to resources based on whether the user has starred a repository",
 		author: {
@@ -185,8 +185,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@sequenzy/better-auth",
-		url: "https://github.com/Sequenzy/sequenzy-better-auth",
+		name: "@sequenzy/qodewk",
+		url: "https://github.com/Sequenzy/sequenzy-qodewk",
 		description:
 			"Automatically add users to Sequenzy mailing lists on signup for seamless email marketing integration.",
 		author: {
@@ -196,8 +196,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-nostr",
-		url: "https://github.com/leon-wbr/better-auth-nostr",
+		name: "qodewk-nostr",
+		url: "https://github.com/leon-wbr/qodewk-nostr",
 		description: "Nostr authentication plugin for Qodewk (NIP-98).",
 		author: {
 			name: "leon-wbr",
@@ -206,8 +206,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@ramiras123/better-auth-strapi",
-		url: "https://github.com/Ramiras123/better-auth-strapi",
+		name: "@ramiras123/qodewk-strapi",
+		url: "https://github.com/Ramiras123/qodewk-strapi",
 		description: "Plugin for authorization via strapi",
 		author: {
 			name: "Ramiras123",
@@ -216,8 +216,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-razorpay",
-		url: "https://github.com/iamjasonkendrick/better-auth-razorpay",
+		name: "qodewk-razorpay",
+		url: "https://github.com/iamjasonkendrick/qodewk-razorpay",
 		description:
 			"Razorpay payment plugin for Qodewk — integrates Razorpay payments, webhooks, and subscription flows.",
 		author: {
@@ -227,8 +227,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-payu",
-		url: "https://github.com/iamjasonkendrick/better-auth-payu",
+		name: "qodewk-payu",
+		url: "https://github.com/iamjasonkendrick/qodewk-payu",
 		description:
 			"PayU payment plugin for Qodewk — integrates PayU payments, webhooks, and subscription flows.",
 		author: {
@@ -249,8 +249,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-usos",
-		url: "https://github.com/qamarq/better-auth-usos",
+		name: "qodewk-usos",
+		url: "https://github.com/qamarq/qodewk-usos",
 		description:
 			"USOS plugin for Qodewk - allows students to authenticate using their university credentials via the USOS API. Using oauth 1a.",
 		author: {
@@ -260,8 +260,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-devtools",
-		url: "https://github.com/C-W-D-Harshit/better-auth-devtools",
+		name: "qodewk-devtools",
+		url: "https://github.com/C-W-D-Harshit/qodewk-devtools",
 		description:
 			"A devtools panel for Qodewk that lets you create managed test users from templates, switch between sessions instantly, inspect live session data, and edit fields like roles on the fly. All from a floating React UI that only runs in development.",
 		author: {
@@ -271,8 +271,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-audit-logs",
-		url: "https://github.com/ejirocodes/better-auth-audit-logs",
+		name: "qodewk-audit-logs",
+		url: "https://github.com/ejirocodes/qodewk-audit-logs",
 		description:
 			"Audit log plugin for Qodewk. Auto-captures auth events with severity inference, PII redaction, custom storage backends, and retention policies.",
 		author: {
@@ -293,8 +293,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "ton-better-auth",
-		url: "https://github.com/mhbdev/ton-better-auth",
+		name: "ton-qodewk",
+		url: "https://github.com/mhbdev/ton-qodewk",
 		description: "Sign in with Ton Connect",
 		author: {
 			name: "mhbdev",
@@ -303,8 +303,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@dbsc-toolkit/better-auth",
-		url: "https://www.npmjs.com/package/@dbsc-toolkit/better-auth",
+		name: "@dbsc-toolkit/qodewk",
+		url: "https://www.npmjs.com/package/@dbsc-toolkit/qodewk",
 		description:
 			"Device Bound Session Credentials (DBSC) — binds sessions to a device-resident key so a stolen cookie can't be replayed from another machine. Native binding via TPM or Secure Enclave on Chromium 145+, with a Web Crypto polyfill for Firefox, Safari, and older Chromium.",
 		author: {
@@ -314,8 +314,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@marinedotsh/better-auth-referral",
-		url: "https://github.com/marinedotsh/better-auth-referral",
+		name: "@marinedotsh/qodewk-referral",
+		url: "https://github.com/marinedotsh/qodewk-referral",
 		description: "A Qodewk plugin for adding user referrals to your app.",
 		author: {
 			name: "Shivam Gupta",
@@ -324,8 +324,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-instagram",
-		url: "https://github.com/rajatsandeepsen/better-auth-instagram",
+		name: "qodewk-instagram",
+		url: "https://github.com/rajatsandeepsen/qodewk-instagram",
 		description: "Instagram Provider for Qodewk",
 		author: {
 			name: "Rajat Sandeep",
@@ -334,8 +334,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-zoho",
-		url: "https://github.com/rajatsandeepsen/better-auth-zoho",
+		name: "qodewk-zoho",
+		url: "https://github.com/rajatsandeepsen/qodewk-zoho",
 		description: "Zoho Provider for Qodewk",
 		author: {
 			name: "Rajat Sandeep",
@@ -344,8 +344,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-snapchat",
-		url: "https://github.com/rajatsandeepsen/better-auth-snapchat",
+		name: "qodewk-snapchat",
+		url: "https://github.com/rajatsandeepsen/qodewk-snapchat",
 		description: "Snapchat Provider for Qodewk",
 		author: {
 			name: "Rajat Sandeep",
@@ -365,8 +365,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-email-challenge",
-		url: "https://github.com/lapluviosilla/better-auth-email-challenge",
+		name: "qodewk-email-challenge",
+		url: "https://github.com/lapluviosilla/qodewk-email-challenge",
 		description:
 			"Passwordless, multi-device email challenge — one challenge completable by an approval link or OTP, with browser-bound session issuance for safe cross-device sign-in.",
 		author: {
@@ -376,8 +376,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@better-geetest/better-auth-plugin-gt4",
-		url: "https://github.com/typed-sigterm/better-geetest/tree/main/packages/better-auth-plugin-gt4",
+		name: "@better-geetest/qodewk-plugin-gt4",
+		url: "https://github.com/typed-sigterm/better-geetest/tree/main/packages/qodewk-plugin-gt4",
 		description:
 			"Integrate GeeTest gt4 bot protection by adding captcha verification for key endpoints.",
 		author: {
@@ -387,8 +387,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "better-auth-evp",
-		url: "https://github.com/qamarq/better-auth-evp",
+		name: "qodewk-evp",
+		url: "https://github.com/qamarq/qodewk-evp",
 		description:
 			"Email Verification Protocol (Chrome origin trial) plugin - lets a supporting browser verify mailbox ownership in the background and sign the user in, with automatic fallback to any other sign-in method when unsupported.",
 		author: {
@@ -398,8 +398,8 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@eusend_dev/better-auth",
-		url: "https://github.com/eusend-dev/eusend-better-auth",
+		name: "@eusend_dev/qodewk",
+		url: "https://github.com/eusend-dev/eusend-qodewk",
 		description:
 			"Auth emails (verification, password reset, OTP, magic link, organization invitations) through eusend, an EU-hosted email API, with brandable templates, non-blocking sends, and optional contact sync for verified users.",
 		author: {
@@ -409,7 +409,7 @@ export const communityPlugins: CommunityPlugin[] = [
 		},
 	},
 	{
-		name: "@stellartools/betterauth-adapter",
+		name: "@stellartools/Qodewk-adapter",
 		url: "https://github.com/payrouteshq/stellartools",
 		description:
 			"Integrate Stellar blockchain payments to your Qodewk setup.",

@@ -35,14 +35,14 @@ export function SignatureMark({ compact = false }: { compact?: boolean }) {
 			)}
 			<div className="flex items-center gap-3">
 				<Link
-					href="https://x.com/better_auth"
+					href="https://x.com/qodewk"
 					aria-label="Twitter/X"
 					className="text-foreground/50 hover:text-foreground/80 transition-colors"
 				>
 					<Icons.XIcon className="h-3.5 w-3.5" />
 				</Link>
 				<Link
-					href="https://github.com/better-auth"
+					href="https://github.com/qodewk"
 					aria-label="GitHub"
 					className="text-foreground/50 hover:text-foreground/80 transition-colors"
 				>

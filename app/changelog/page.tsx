@@ -72,7 +72,7 @@ export default async function ChangelogPage() {
 	let releases: GitHubRelease[] = [];
 	try {
 		const res = await fetch(
-			"https://api.github.com/repos/better-auth/better-auth/releases",
+			"https://api.github.com/repos/abushaidislam/Qodewk/releases",
 			{
 				next: { revalidate: 3600 },
 				headers: {
@@ -162,7 +162,7 @@ export default async function ChangelogPage() {
 
 					<div className="flex items-center gap-3 pt-4">
 						<Link
-							href="https://github.com/better-auth/better-auth/releases"
+							href="https://github.com/abushaidislam/Qodewk/releases"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="inline-flex items-center gap-1.5 text-[12px] text-foreground/70 dark:text-foreground/50 hover:text-foreground/80 font-mono uppercase tracking-wider transition-colors"

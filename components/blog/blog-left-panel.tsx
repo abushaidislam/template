@@ -130,7 +130,7 @@ export function BlogLeftPanel({ postCount, post }: BlogLeftPanelProps) {
 					{/* Social & RSS */}
 					<div className="flex items-center gap-3 pt-2">
 						<a
-							href="https://github.com/better-auth/better-auth"
+							href="https://github.com/abushaidislam/Qodewk"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="flex items-center gap-1.5 text-foreground/30 hover:text-foreground/70 transition-colors"
@@ -149,7 +149,7 @@ export function BlogLeftPanel({ postCount, post }: BlogLeftPanelProps) {
 							</svg>
 						</a>
 						<a
-							href="https://x.com/better_auth"
+							href="https://x.com/qodewk"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="flex items-center gap-1.5 text-foreground/30 hover:text-foreground/70 transition-colors"

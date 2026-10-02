@@ -27,7 +27,7 @@ const schema = {
 } satisfies DBSchema;
 
 /**
- * @see https://github.com/better-auth/better-auth/issues/10025
+ * @see https://github.com/abushaidislam/Qodewk/issues/10025
  */
 describe("copySchema indexes", () => {
 	it("generates portable non-unique SQL indexes", () => {

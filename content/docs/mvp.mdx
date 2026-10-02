@@ -1,0 +1,279 @@
+---
+title: MVP Guide
+description: 48-hour MVP scope and setup
+---
+
+## Goal
+
+Ship one complete vertical slice:
+
+```text
+Git repo
+  -> CLI
+  -> observed Git metrics
+  -> estimated tokens/cost
+  -> Receipt JSON
+  -> shareable web receipt
+  -> OG image
+  -> GitHub PR comment
+```
+
+## Do not build in the weekend
+
+- full dashboard
+- teams
+- enterprise
+- SSO/SCIM
+- desktop app
+- Rust core
+- exact universal AI attribution
+- universal agent kill-switch
+- complex AST scoring
+
+## Hour 0–3: repo setup
+
+Create:
+
+```text
+apps/web
+packages/cli
+packages/core
+packages/protocol
+packages/pricing
+```
+
+Add TypeScript, pnpm, linting, formatting and basic tests.
+
+## Hour 3–7: Git engine
+
+Implement:
+
+```ts
+getRepo()
+getBranch()
+getHead()
+getBase()
+getStatus()
+getDiff()
+```
+
+Initial output:
+
+```json
+{
+  "files": 7,
+  "insertions": 142,
+  "deletions": 31
+}
+```
+
+## Hour 7–10: diff analysis
+
+Add:
+
+- extension/language detection
+- code vs non-code filtering
+- rename count
+- binary-file handling
+
+Do not implement deep AST analysis yet.
+
+## Hour 10–13: cost estimator
+
+Start with a deliberately simple heuristic:
+
+```text
+characters / 4
+```
+
+Apply configurable context and output multipliers.
+
+Render:
+
+```text
+~21.4K estimated tokens
+~$0.42 estimated cost
+```
+
+Always label as estimated.
+
+## Hour 13–16: Receipt Protocol
+
+Create `packages/protocol` with Zod schemas and JSON serialization.
+
+Add:
+
+```bash
+qodewk --json
+```
+
+Output should be machine-readable and versioned.
+
+## Hour 16–20: web app
+
+Routes:
+
+```text
+/r/[id]
+/api/receipts
+```
+
+Show a single premium receipt page.
+
+## Hour 20–24: OG card
+
+Generate a dynamic image with `next/og`.
+
+Card should show:
+
+- project alias
+- files changed
+- +LOC/-LOC
+- token estimate
+- cost estimate
+- provider/model
+- date
+- privacy statement
+- public URL
+
+## Hour 24–28: Supabase
+
+Create the receipt table with claim token and expiration support for the MVP:
+
+```sql
+CREATE TABLE public.receipts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    public_id TEXT UNIQUE NOT NULL, -- e.g. rec_01J8Y29K4Z00ABC
+    project_alias TEXT NOT NULL,
+    repo_hash TEXT NOT NULL,
+    branch_hash TEXT,
+    files_changed INTEGER NOT NULL,
+    insertions INTEGER NOT NULL,
+    deletions INTEGER NOT NULL,
+    estimated_tokens INTEGER NOT NULL,
+    estimated_cost NUMERIC(10, 4) NOT NULL,
+    provider TEXT NOT NULL,
+    model TEXT,
+    confidence NUMERIC(3, 2) NOT NULL,
+    payload_json JSONB NOT NULL,
+    claim_token_hash TEXT, -- SHA-256 of author secret
+    is_public BOOLEAN DEFAULT true,
+    expires_at TIMESTAMPTZ DEFAULT (now() + interval '30 days'),
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX idx_receipts_public_id ON public.receipts(public_id);
+CREATE INDEX idx_receipts_created_at ON public.receipts(created_at);
+```
+
+## Hour 28–32: share command
+
+```bash
+qodewk share
+```
+
+Flow:
+
+```text
+local receipt
+  -> validate against ReceiptV1Schema
+  -> compute salted hashes & sanitize
+  -> POST /api/receipts (Max 50KB payload)
+  -> server responds with publicId & claimToken
+  -> save claimToken into local SQLite
+  -> output shareable URL & copy to clipboard
+```
+
+## Hour 32–36: GitHub Action
+
+Create:
+
+```text
+@qodewk/action
+```
+
+On pull request open/synchronize:
+
+```text
+checkout
+run CLI
+create metrics
+comment PR
+```
+
+## Hour 36–40: UX polish
+
+CLI:
+
+```text
+╭──────────────────────────────╮
+│       DEV RECEIPT            │
+├──────────────────────────────┤
+│  14 files touched            │
+│  +381  -72                   │
+│                              │
+│  ~183K tokens                │
+│  ~$2.41 estimated            │
+│                              │
+│  Claude Code · Opus 4        │
+│                              │
+│  qodewk.dev/r/7K3A2          │
+╰──────────────────────────────╯
+```
+
+## Hour 40–44: privacy audit
+
+Verify:
+
+- no source code in request payloads
+- no diff bodies in cloud database
+- no `.env` reads
+- no credential collection
+- no repository tarball/upload endpoint
+
+Add an explicit local setting:
+
+```text
+QODEWK_TELEMETRY=off
+```
+
+## Hour 44–48: release
+
+Publish:
+
+- npm CLI
+- GitHub repository
+- web receipt demo
+- GitHub Action
+- README with one-command install
+
+## Definition of done
+
+A user should be able to run:
+
+```bash
+npx qodewk
+```
+
+and then:
+
+
+```bash
+qodewk share
+```
+
+and receive:
+
+1. a terminal receipt
+2. JSON output
+3. a public/private web receipt option
+4. a dynamic OG image
+
+## First post-MVP experiments
+
+1. Claude exact usage adapter
+2. Cursor usage import
+3. Copilot adapter
+4. PR badge
+5. daily standup
+6. provider pricing registry

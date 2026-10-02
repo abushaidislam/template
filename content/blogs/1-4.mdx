@@ -16,7 +16,7 @@ We're excited to announce the release of Qodewk 1.4. This release includes sever
 To upgrade, run:
 
 ```package-install
-npm install better-auth@1.4
+npm install qodewk@1.4
 ```
 
 ***
@@ -30,9 +30,9 @@ You can now enable stateless session management without any database by omitting
 [👉 Read more about stateless auth](/docs/concepts/session-management#stateless-session-management)
 
 ```ts
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     // No database configuration
     socialProviders: {
         google: {
@@ -63,10 +63,10 @@ SCIM makes managing identities in multi-domain scenarios easier to support via a
 [👉 Read more about SCIM provisioning](/docs/plugins/scim)
 
 ```ts
-import { scim } from "@better-auth/scim";
-import { betterAuth } from "better-auth";
+import { scim } from "@qodewk/scim";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [scim()]
 });
 ```
@@ -94,10 +94,10 @@ await authClient.signIn.social({
 Access additional data in any hook, middleware, or endpoints
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth";
-import { getOAuthState, createAuthMiddleware } from "better-auth/api";
+import { Qodewk } from "qodewk";
+import { getOAuthState, createAuthMiddleware } from "qodewk/api";
 
-const auth = betterAuth({
+const auth = Qodewk({
     hooks: {
       before: createAuthMiddleware(async (ctx) => {
         const additionalData = await getOAuthState<{ referralCode: string, source: string }>();
@@ -111,7 +111,7 @@ const auth = betterAuth({
 
 ### Database Joins Improvements
 
-Better-Auth now supports database joins, improving over 50 endpoints by 2 to 3x in latency. This is achieved by using database joins under the hood.
+qodewk now supports database joins, improving over 50 endpoints by 2 to 3x in latency. This is achieved by using database joins under the hood.
 
 To enable, set `advanced.database.joins` to `true` in your auth config.
 Then, re-run migrations or schema generation to get the updated schema which supports joins!
@@ -119,9 +119,9 @@ Then, re-run migrations or schema generation to get the updated schema which sup
 [👉 Read more about database joins](/docs/concepts/database#joins)
 
 ```ts
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     advanced: {
         database: {
             joins: true,
@@ -143,10 +143,10 @@ The API-Key plugin now supports secondary storage for faster key lookups!
 [👉 Read more about secondary storage for API keys](/docs/plugins/api-key#storage-modes)
 
 ```ts
-import { apiKey } from "@better-auth/api-key";
-import { betterAuth } from "better-auth";
+import { apiKey } from "@qodewk/api-key";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     secondaryStorage: {
         //...
     },
@@ -159,10 +159,10 @@ export const auth = betterAuth({
     1. Start with `fallbackToDatabase` enabled and `storage` set to `"secondary-storage"`:
 
     ```ts
-    import { apiKey } from "@better-auth/api-key";
-    import { betterAuth } from "better-auth";
+    import { apiKey } from "@qodewk/api-key";
+    import { Qodewk } from "qodewk";
 
-    export const auth = betterAuth({
+    export const auth = Qodewk({
         secondaryStorage: {
             //...
         },
@@ -178,10 +178,10 @@ export const auth = betterAuth({
     3. **Disable fallback**: Once all keys are migrated or when you're confident the cache is sufficiently populated:
 
     ```ts
-    import { apiKey } from "@better-auth/api-key";
-    import { betterAuth } from "better-auth";
+    import { apiKey } from "@qodewk/api-key";
+    import { Qodewk } from "qodewk";
 
-    export const auth = betterAuth({
+    export const auth = Qodewk({
         plugins: [
             apiKey({
                 storage: "secondary-storage",
@@ -214,10 +214,10 @@ by automatically validating ownership via the associated domain:
 👉 [Read more about domain verification](/docs/plugins/sso#domain-verification)
 
 ```ts
-import { sso } from "@better-auth/sso";
-import { betterAuth } from "better-auth";
+import { sso } from "@qodewk/sso";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [sso({ domainVerification: { enabled: true } })],
 });
 ```
@@ -226,7 +226,7 @@ export const auth = betterAuth({
 
 ### CLI Database Index Support
 
-The Better-Auth CLI now supports indexing your database out of the box, which greatly improves the performance of your application.
+The qodewk CLI now supports indexing your database out of the box, which greatly improves the performance of your application.
 
 ```bash
 npx auth generate
@@ -241,10 +241,10 @@ npx auth migrate
 The JWT plugin now supports key rotation, allowing you to rotate your JWT keys without downtime.
 
 ```ts
-import { jwt } from "@better-auth/jwt";
-import { betterAuth } from "better-auth";
+import { jwt } from "@qodewk/jwt";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
       jwt({ 
         jwks: { rotationInterval: 60 * 60 * 24 * 30, gracePeriod: 60 * 60 * 24 * 30 } // [!code highlight]
@@ -261,11 +261,11 @@ OAuth providers not yet supported natively will be available as pre-configured o
 with plans to eventually support all providers that Auth.js does.
 
 ```ts
-import { betterAuth } from "better-auth";
-import { genericOAuth } from "better-auth/plugins";
-import { keycloak } from "better-auth/plugins/generic-oauth";
+import { Qodewk } from "qodewk";
+import { genericOAuth } from "qodewk/plugins";
+import { keycloak } from "qodewk/plugins/generic-oauth";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [genericOAuth({
         config: [
             keycloak({
@@ -284,17 +284,17 @@ export const auth = betterAuth({
 ### Bundle Size Optimizations
 
 If you're using custom adapters (like Prisma, Drizzle, or MongoDB),
-you can reduce your bundle size by using `better-auth/minimal` instead of better-auth.
+you can reduce your bundle size by using `qodewk/minimal` instead of qodewk.
 This version excludes Kysely, which is only needed when using direct database connections.
 
 [👉 Read more about bundle size optimizations](/docs/guides/optimizing-for-performance#bundle-size-optimization)
 
 ```ts
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { betterAuth } from "better-auth/minimal"; // [!code highlight]
+import { drizzleAdapter } from "qodewk/adapters/drizzle";
+import { Qodewk } from "qodewk/minimal"; // [!code highlight]
 import { db } from "./database";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     database: drizzleAdapter(db, { provider: "pg" }),
 });
 ```
@@ -308,10 +308,10 @@ We now support having UUIDs as the primary ID field type out of the box.
 [👉 Read more about UUID support](/docs/concepts/database#uuids)
 
 ```ts
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 import { db } from "./database";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     database: db,
     advanced: {
         database: { generateId: "uuid" }, // [!code highlight]
@@ -329,9 +329,9 @@ the verification email is sent to the new address.
 [👉 Read more about improved email change flow](/docs/concepts/users-accounts#confirming-with-current-email)
 
 ```ts
-import { betterAuth } from "better-auth";
+import { Qodewk } from "qodewk";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     user: {
         changeEmail: {
             enabled: true,
@@ -356,10 +356,10 @@ Full support for the OAuth 2.0 Device Authorization Grant (RFC 8628), allowing u
 [👉 Read more about Device Authorization](/docs/plugins/device-authorization)
 
 ```ts
-import { betterAuth } from "better-auth";
-import { deviceAuthorization } from "better-auth/plugins";
+import { Qodewk } from "qodewk";
+import { deviceAuthorization } from "qodewk/plugins";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
     plugins: [
         deviceAuthorization()
     ]
@@ -373,7 +373,7 @@ export const auth = betterAuth({
 You can now store user account data in a signed cookie, which is perfect for stateless applications or when you want to defer database persistence.
 
 ```ts
-export const auth = betterAuth({
+export const auth = Qodewk({
     account: {
         storeAccountCookie: true
     } 
@@ -423,7 +423,7 @@ Multiple plugin options that accept `request` as an argument for callback functi
   Install it today:
 
   ```package-install
-  npm install @better-auth/passkey
+  npm install @qodewk/passkey
   ```
 
 * **Email OTP Plugin**: Plugin options for `sendVerificationOTP` and `generateOTP` now use `ctx` instead of `request` in its callback function. You can still access request via `ctx.request`.
@@ -447,13 +447,13 @@ Database configuration options changes.
 
 ### Tanstack Start
 
-The Better-Auth offered `reactStartCookies` plugin is now moved to `tanstackStartCookies` plugin.
+The qodewk offered `reactStartCookies` plugin is now moved to `tanstackStartCookies` plugin.
 
 ```diff
-- import { reactStartCookies } from "better-auth/react-start";
-+ import { tanstackStartCookies } from "better-auth/tanstack-start";
+- import { reactStartCookies } from "qodewk/react-start";
++ import { tanstackStartCookies } from "qodewk/tanstack-start";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
 -    plugins: [reactStartCookies()],
 +    plugins: [tanstackStartCookies()],
 });
@@ -498,7 +498,7 @@ In the next major release, we will assume AsyncLocalStorage support by default, 
 * **Client `disableSignal`**: Option to disable default abort signal behavior in the client.
 * **`AuthClient` Type Helper**: New type helper for better client-side type inference.
 * **New Providers**: Polar and Paybin OAuth providers added.
-* **ESM Only**: Better-Auth is now 100% ESM.
+* **ESM Only**: qodewk is now 100% ESM.
 * **Session Refetching**: Support for polling & on-window-focus refetching.
 * **Cloudflare Workers**: CLI support for virtual module imports.
 * **Error Documentation**: Common OAuth flow errors are now [documented](/docs/reference/errors).
@@ -524,7 +524,7 @@ This release includes over 250+ bug fixes addressing issues across all areas:
 ***
 
 A lot of refinements to make everything smoother, faster, and more reliable.
-👉 [Check the full changelog](https://github.com/better-auth/better-auth/releases/tag/v1.4.0)
+👉 [Check the full changelog](https://github.com/abushaidislam/Qodewk/releases/tag/v1.4.0)
 
 ## ❤️ Contributors
 

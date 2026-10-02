@@ -260,7 +260,7 @@ export function ChangelogContent({ messages }: { messages: ReleaseMessage[] }) {
 
 			<div className="px-5 sm:px-6 lg:px-8 py-12">
 				<Link
-					href="https://github.com/better-auth/better-auth/releases"
+					href="https://github.com/abushaidislam/Qodewk/releases"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"

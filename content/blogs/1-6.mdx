@@ -36,7 +36,7 @@ const provider = new NodeTracerProvider({
 provider.register();
 ```
 
-Once a TracerProvider is registered, Qodewk automatically emits spans via the `better-auth` tracer. No additional configuration is needed in your auth setup.
+Once a TracerProvider is registered, Qodewk automatically emits spans via the `qodewk` tracer. No additional configuration is needed in your auth setup.
 
 Supported spans include:
 
@@ -44,9 +44,9 @@ Supported spans include:
 * **Database spans**: `db create user`, `db findOne session`, etc.
 * **Hook spans**: before/after hooks, middleware, onRequest/onResponse
 
-Each span carries attributes like `http.route`, `db.operation.name`, `db.collection.name`, and `better_auth.operation_id` for filtering and grouping in your observability tool.
+Each span carries attributes like `http.route`, `db.operation.name`, `db.collection.name`, and `qodewk.operation_id` for filtering and grouping in your observability tool.
 
-This feature is experimental and the span structure may change in future releases. For more information, see the [instrumentation documentation](https://www.better-auth.com/docs/reference/instrumentation).
+This feature is experimental and the span structure may change in future releases. For more information, see the [instrumentation documentation](https://www.qodewk.dev/docs/reference/instrumentation).
 
 ***
 
@@ -57,10 +57,10 @@ This feature is experimental and the span structure may change in future release
 The passkey plugin now supports registering passkeys *before* the user has a session. This enables passkey-first onboarding flows where the passkey itself is the initial authentication method.
 
 ```ts title="auth.ts"
-import { betterAuth } from "better-auth";
-import { passkey } from "@better-auth/passkey";
+import { Qodewk } from "qodewk";
+import { passkey } from "@qodewk/passkey";
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   plugins: [
     passkey({
       registration: {
@@ -77,7 +77,7 @@ export const auth = betterAuth({
 
 The plugin also adds support for WebAuthn extensions on both registration and authentication, letting you pass server-defined extensions like `credProps`.
 
-For more information, see the [passkey documentation](https://www.better-auth.com/docs/plugins/passkey).
+For more information, see the [passkey documentation](https://www.qodewk.dev/docs/plugins/passkey).
 
 ***
 
@@ -110,7 +110,7 @@ Under the hood, each adapter picks the most efficient case-insensitive strategy 
 
 The `freshAge` check now uses `createdAt` instead of `updatedAt`. Previously, any session refresh would reset the freshness window, meaning a session could stay "fresh" indefinitely through regular access. Now, freshness is tied to when the session was created, so sensitive operations like password changes or payment confirmations require recent sign-in.
 
-For more information, see the [session freshness documentation](https://www.better-auth.com/docs/concepts/session-management#session-freshness).
+For more information, see the [session freshness documentation](https://www.qodewk.dev/docs/concepts/session-management#session-freshness).
 
 ***
 
@@ -128,7 +128,7 @@ sso({
 });
 ```
 
-For more information, see the [SSO documentation](https://www.better-auth.com/docs/plugins/sso).
+For more information, see the [SSO documentation](https://www.qodewk.dev/docs/plugins/sso).
 
 ***
 
@@ -148,7 +148,7 @@ Two changes that affect every Qodewk user:
 
    | Package       | v1.5.6   | v1.6.0   | Reduction |
    | ------------- | -------- | -------- | --------- |
-   | `better-auth` | 4,236 KB | 2,265 KB | 46%       |
+   | `qodewk` | 4,236 KB | 2,265 KB | 46%       |
 
 ***
 
@@ -172,9 +172,9 @@ Two changes that affect every Qodewk user:
 
 | Change               | Description                                                                                                                                                 |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| OIDC Provider plugin | Deprecated in favor of [`@better-auth/oauth-provider`](https://www.better-auth.com/docs/plugins/oauth-provider). Will be removed in the next minor version. |
+| OIDC Provider plugin | Deprecated in favor of [`@qodewk/oauth-provider`](https://www.qodewk.dev/docs/plugins/oauth-provider). Will be removed in the next minor version. |
 
-For the full list of changes, see the [changelog](https://github.com/better-auth/better-auth/compare/v1.5.6...v1.6.0).
+For the full list of changes, see the [changelog](https://github.com/abushaidislam/Qodewk/compare/v1.5.6...v1.6.0).
 
 ***
 
@@ -207,7 +207,7 @@ Qodewk releases now flow through two tracks instead of one. A change ships throu
 * **`main` is the stable track.** It ships bug fixes, security work, additive improvements, and behavior changes that do not require user action. New capabilities can also land here as long as they are well-tested, non-breaking, and safe to adopt immediately.
 * **`next` is the beta track.** It ships new features, refactors, and breaking changes, after a beta cycle that gives users a window to adapt.
 
-The split exists so that important fixes can move fast without waiting for unrelated work, and so that breaking changes never land without warning. For the latest stable, `npm install better-auth` works as before. To try the next minor in progress, install with the `@beta` tag.
+The split exists so that important fixes can move fast without waiting for unrelated work, and so that breaking changes never land without warning. For the latest stable, `npm install qodewk` works as before. To try the next minor in progress, install with the `@beta` tag.
 
 For contributors, release decisions now happen in the pull request itself. A changeset on each PR declares its release intent, and our automated workflow routes the PR to the right branch.
 
@@ -215,7 +215,7 @@ For contributors, release decisions now happen in the pull request itself. A cha
 
 > Discussion comes before code.
 
-Going forward, every new feature request begins with the [Feature request issue template](https://github.com/better-auth/better-auth/issues/new?template=feature_request.yml) on GitHub, not with a pull request opened directly.
+Going forward, every new feature request begins with the [Feature request issue template](https://github.com/abushaidislam/Qodewk/issues/new?template=feature_request.yml) on GitHub, not with a pull request opened directly.
 
 Large PRs landing directly are difficult to review safely while keeping the existing system stable. Starting with an issue gives us room to discuss scope, align on API shape, and schedule the work against the release track it belongs on. It also gives us a cleaner way to communicate the roadmap, so contributors and users can see where a given feature is heading and when it might land.
 

@@ -25,7 +25,7 @@ const staticContributorsCount = staticContributors.length;
 async function fetchNpmDownloads(): Promise<number> {
 	try {
 		const response = await fetch(
-			"https://api.npmjs.org/downloads/point/last-week/better-auth",
+			"https://api.npmjs.org/downloads/point/last-week/qodewk",
 			{ next: { revalidate: 3600 } }, // Cache for 1 hour
 		);
 
@@ -50,7 +50,7 @@ async function fetchNpmWeeklyHistory(): Promise<number[]> {
 		start.setMonth(start.getMonth() - 6);
 		const fmt = (d: Date) => d.toISOString().slice(0, 10);
 		const response = await fetch(
-			`https://api.npmjs.org/downloads/range/${fmt(start)}:${fmt(end)}/better-auth`,
+			`https://api.npmjs.org/downloads/range/${fmt(start)}:${fmt(end)}/qodewk`,
 			{ next: { revalidate: 3600 } },
 		);
 		if (!response.ok) return [];
@@ -83,12 +83,12 @@ async function fetchGitHubStats(): Promise<{
 }> {
 	try {
 		const [repoResponse, contributorsResponse] = await Promise.all([
-			fetch("https://api.github.com/repos/better-auth/better-auth", {
+			fetch("https://api.github.com/repos/abushaidislam/Qodewk", {
 				next: { revalidate: 3600 },
 				headers: githubHeaders,
 			}),
 			fetch(
-				"https://api.github.com/repos/better-auth/better-auth/contributors?per_page=1&anon=true",
+				"https://api.github.com/repos/abushaidislam/Qodewk/contributors?per_page=1&anon=true",
 				{
 					next: { revalidate: 3600 },
 					headers: githubHeaders,

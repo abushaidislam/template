@@ -25,7 +25,7 @@ We’ve noticed that some users are migrating from Supabase to PlanetScale Postg
   </Step>
 
   <Step>
-    Create a [new database](https://app.planetscale.com/new?org=better-auth)
+    Create a [new database](https://app.planetscale.com/new?org=qodewk)
   </Step>
 
   <Step>
@@ -57,12 +57,12 @@ We’ve noticed that some users are migrating from Supabase to PlanetScale Postg
     Install Qodewk
 
     ```package-install
-    npm install better-auth
+    npm install qodewk
     ```
   </Step>
 
   <Step>
-    Follow and complete the [basic setup](https://www.better-auth.com/docs/installation)
+    Follow and complete the [basic setup](https://www.qodewk.dev/docs/installation)
   </Step>
 </Steps>
 
@@ -112,9 +112,9 @@ Your auth config should be like this:
   <Tab value="auth.ts">
     ```ts
     import { Pool } from "pg";
-    import { betterAuth } from "better-auth";
+    import { Qodewk } from "qodewk";
 
-    export const auth = betterAuth({
+    export const auth = Qodewk({
       baseURL: "http://localhost:3000",
       database: new Pool({
         connectionString: process.env.DATABASE_URL,
@@ -128,7 +128,7 @@ Your auth config should be like this:
 
   <Tab value="auth-client.ts">
     ```ts
-    import { createAuthClient } from "better-auth/react";
+    import { createAuthClient } from "qodewk/react";
     export const authClient = createAuthClient({
       baseURL: "http://localhost:3000",
     });
@@ -197,7 +197,7 @@ Now comes the fun part. You are now all setup to move your auth from Supabase Au
 
 <Callout type="info">
   For a more detailed guide checkout [this
-  guide](https://www.better-auth.com/docs/guides/supabase-migration-guide) we
+  guide](https://www.qodewk.dev/docs/guides/supabase-migration-guide) we
   made.
 </Callout>
 
@@ -340,13 +340,13 @@ You've successfully migrated from Supabase Auth to Qodewk on PlanetScale.
 
 * Double-check that all environment variables are set in production.
 * Test all auth flows (sign-up, login, password reset, session refresh) before going live.
-* Remember that this is just the basics and if you've integrated Supabase Auth's auth functions in a lot of placed you'd have to find the suitable [Qodewk replacements](https://www.better-auth.com/docs).
+* Remember that this is just the basics and if you've integrated Supabase Auth's auth functions in a lot of placed you'd have to find the suitable [Qodewk replacements](https://www.qodewk.dev/docs).
 * Have fun!
 
 ### Learn More!
 
 <Cards>
-  <Card href="https://www.better-auth.com/docs/introduction" title="Qodewk Setup">
+  <Card href="https://www.qodewk.dev/docs/introduction" title="Qodewk Setup">
     Get started with installing Qodewk
   </Card>
 
@@ -358,7 +358,7 @@ You've successfully migrated from Supabase Auth to Qodewk on PlanetScale.
     Use this guide to move your data from Supabase and many more services
   </Card>
 
-  <Card href="https://www.better-auth.com/docs/guides/supabase-migration-guide" title="Supabase Auth Migration">
+  <Card href="https://www.qodewk.dev/docs/guides/supabase-migration-guide" title="Supabase Auth Migration">
     Move your auth from Supabase Auth to your own DB
   </Card>
 </Cards>

@@ -1,0 +1,59 @@
+name: "Qodewk Digital Receipt"
+description: "Universal telemetry and digital receipt generator for the AI coding agent era"
+author: "Qodewk"
+inputs:
+  github-token:
+    description: "GitHub token for commenting on pull requests"
+    required: false
+    default: "${{ github.token }}"
+  base-ref:
+    description: "Target base git ref or commit SHA (e.g. origin/main)"
+    required: false
+    default: "${{ github.base_ref }}"
+  head-sha:
+    description: "Head commit SHA"
+    required: false
+    default: "${{ github.sha }}"
+  publish-cloud:
+    description: "Whether to publish receipt metadata to Qodewk cloud"
+    required: false
+    default: "true"
+  api-url:
+    description: "Qodewk API ingestion endpoint"
+    required: false
+    default: "https://qodewk.flinkeo.online/api/receipts"
+  comment-pr:
+    description: "Whether to upsert a sticky comment on the pull request"
+    required: false
+    default: "true"
+outputs:
+  receipt-id:
+    description: "Generated receipt ID"
+    value: ${{ steps.qodewk-run.outputs.receipt-id }}
+  receipt-url:
+    description: "Public URL of digital receipt"
+    value: ${{ steps.qodewk-run.outputs.receipt-url }}
+  cost:
+    description: "Estimated AI cost in USD"
+    value: ${{ steps.qodewk-run.outputs.cost }}
+  tokens:
+    description: "Total token consumption"
+    value: ${{ steps.qodewk-run.outputs.tokens }}
+  markdown:
+    description: "Formatted Markdown receipt"
+    value: ${{ steps.qodewk-run.outputs.markdown }}
+runs:
+  using: "composite"
+  steps:
+    - name: Execute Qodewk Telemetry Receipt
+      id: qodewk-run
+      shell: bash
+      env:
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_BASE_REF: ${{ inputs.base-ref }}
+        INPUT_HEAD_SHA: ${{ inputs.head-sha }}
+        INPUT_PUBLISH_CLOUD: ${{ inputs.publish-cloud }}
+        INPUT_API_URL: ${{ inputs.api-url }}
+        INPUT_COMMENT_PR: ${{ inputs.comment-pr }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: node "${{ github.action_path }}/dist/index.js"

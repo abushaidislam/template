@@ -1,0 +1,150 @@
+---
+title: Deployment
+description: Deployment instructions and infrastructure
+---
+
+This document specifies the step-by-step procedures for deploying the **Qodewk Web Platform** to production and distributing the **Qodewk CLI** and **GitHub Action** to public registries.
+
+---
+
+## 1. NPM Registry Distribution (`npx qodewk` & CLI)
+
+The CLI binary (`qodewk`) is packaged as a standalone ESM executable via `tsup`, ensuring users can run `npx qodewk` instantly without installing local dependencies.
+
+### Pre-Publish Verification
+Before publishing to the public NPM registry:
+
+```bash
+pnpm build
+
+node packages/cli/dist/index.js
+
+pnpm --filter qodewk publish --dry-run
+```
+
+### Publishing to NPM
+Ensure you are logged into your npm account with OTP enabled:
+
+```bash
+npm login
+pnpm --filter qodewk publish --access public
+```
+
+### End-User Consumption
+Once published, developers worldwide can invoke Qodewk immediately:
+
+```bash
+npx qodewk
+
+npx qodewk --json
+
+npx qodewk share
+
+npx qodewk audit --base origin/main --head HEAD --format markdown --out receipt.md
+```
+
+---
+
+## 2. Vercel Edge / Serverless Deployment (`apps/web`)
+
+The Next.js 15 App Router (`apps/web`) is configured with serverless route handlers (`/api/receipts`, `/api/og/[id]`) and static prerendered landing pages.
+
+### Project Settings on Vercel
+1. **Framework Preset:** Next.js
+2. **Root Directory:** `apps/web` (or leave as `./` with Turbo monorepo detection)
+3. **Build Command:** `pnpm --filter web build`
+4. **Output Directory:** `apps/web/.next`
+5. **Install Command:** `pnpm install`
+
+### Environment Variables
+Configure these in the Vercel dashboard:
+
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `NEXT_PUBLIC_APP_URL` | Canonical public URL | `https://qodewk.dev` |
+| `QODEWK_STORAGE_MODE` | In-memory vs persistent SQLite/Postgres | `memory` or `postgres` |
+
+---
+
+## 3. Containerized Deployment (Docker / Google Cloud Run / Coolify)
+
+For self-hosted or cloud container environments, a production multi-stage `Dockerfile` is provided in [`apps/web/Dockerfile`](file:///c:/Users/ASUS/Desktop/Qodewk/apps/web/Dockerfile).
+
+### Build & Run Locally
+```bash
+docker build -t qodewk-web -f apps/web/Dockerfile .
+
+docker run -p 3000:3000 -e PORT=3000 qodewk-web
+```
+
+### Deploy to Google Cloud Run
+```bash
+gcloud run deploy qodewk \
+  --source . \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --port 3000
+```
+
+---
+
+## 4. GitHub Action Distribution
+
+The composite action [`packages/action`](file:///c:/Users/ASUS/Desktop/Qodewk/packages/action) integrates with GitHub PR workflows.
+
+### Adding to External Repositories
+Developers can add Qodewk to their CI by placing `.github/workflows/qodewk.yml` in their repository:
+
+```yaml
+name: "Qodewk Telemetry Receipt"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  audit-receipt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Base
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Qodewk Audit
+        run: |
+          npx --yes qodewk audit \
+            --base origin/${{ github.base_ref }} \
+            --head ${{ github.sha }} \
+            --format markdown \
+            --out receipt.md
+
+      - name: Upsert Sticky Comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: 'receipt.md'
+          comment-author: 'github-actions[bot]'
+          edit-mode: replace
+```
+
+---
+
+## 5. Security & Privacy Assurance Checklist
+
+Before tagging a production release, verify:
+
+1. **50 KB Hard Payload Cap:** Verify that `/api/receipts` strictly rejects any payload exceeding 50 KB with `413 Payload Too Large`.
+2. **Zero Code Exfiltration:** Ensure no file contents or git diff bodies are included in serialized receipt JSON payloads.
+3. **`QODEWK_TELEMETRY=off` Kill Switch:** Test that running with `QODEWK_TELEMETRY=off` cleanly stops all network publishing attempts.
+4. **Visible Trust Badge:** Confirm that every web receipt and terminal card explicitly shows `[✓] Source code was never uploaded to Qodewk`.

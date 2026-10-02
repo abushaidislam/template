@@ -772,14 +772,14 @@ const ormAdapters = [
 ];
 
 const dbSnippets: Record<string, string> = {
-	PostgreSQL: `import { betterAuth } from "better-auth"
+	PostgreSQL: `import { Qodewk } from "qodewk"
 import { Pool } from "pg"
 
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 })
 
-export const auth = betterAuth({
+export const auth = Qodewk({
 	database: pool,
 	emailAndPassword: {
 		enabled: true,
@@ -807,9 +807,9 @@ export const auth = betterAuth({
 })`,
 };
 
-export const serverCode = `import { betterAuth } from "better-auth"
+export const serverCode = `import { Qodewk } from "qodewk"
 
-export const auth = betterAuth({
+export const auth = Qodewk({
   emailAndPassword: {
     enabled: true,
   },
@@ -830,7 +830,7 @@ export const auth = betterAuth({
   ],
 })`;
 
-export const clientCode = `import { createAuthClient } from "better-auth/react"
+export const clientCode = `import { createAuthClient } from "qodewk/react"
 
 export const authClient = createAuthClient({
   plugins: [
@@ -1246,17 +1246,17 @@ export function PluginEcosystem() {
 
 export function AiNativeSection() {
 	const steps = [
-		{ label: "mcp", text: "Connected to better-auth docs" },
-		{ label: "skill", text: "better-auth/add-provider → google" },
-		{ label: "skill", text: "better-auth/add-plugin → two-factor" },
+		{ label: "mcp", text: "Connected to qodewk docs" },
+		{ label: "skill", text: "qodewk/add-provider → google" },
+		{ label: "skill", text: "qodewk/add-plugin → two-factor" },
 		{ label: "write", text: "lib/auth.ts", lines: 14 },
 		{ label: "done", text: "Google OAuth + 2FA configured" },
 	];
 
 	const mcpClients = [
-		{ name: "Claude Code", cmd: "claude mcp add better-auth" },
-		{ name: "Cursor", cmd: "cursor mcp add better-auth" },
-		{ name: "VS Code", cmd: "code --add-mcp better-auth" },
+		{ name: "Claude Code", cmd: "claude mcp add qodewk" },
+		{ name: "Cursor", cmd: "cursor mcp add qodewk" },
+		{ name: "VS Code", cmd: "code --add-mcp qodewk" },
 	];
 
 	return (

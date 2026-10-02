@@ -13,7 +13,7 @@ export function HeroTitle() {
 		>
 			<div>
 				<Link
-					href="/blog/better-auth-joins-vercel"
+					href="/blog/qodewk-joins-vercel"
 					className="relative inline-flex items-center gap-1.5 px-2.5 py-1 pointer-events-auto group/badge rounded-full bg-neutral-200/80 dark:bg-neutral-800/80 hover:bg-neutral-200/70 dark:hover:bg-neutral-700/50 transition-colors"
 				>
 					<svg
@@ -61,7 +61,7 @@ export function HeroTitle() {
 						Get Started
 					</Link>
 					<Link
-						href="https://dash.better-auth.com/sign-in"
+						href="https://dash.qodewk.dev/sign-in"
 						className="relative inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm font-medium transition-colors group"
 					>
 						{/* Diagonal lines background */}

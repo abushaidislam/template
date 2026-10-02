@@ -15,7 +15,7 @@ import { scopeMarkdownLinks } from "./markdown-links";
 import type { source } from "./source";
 
 const docsPathPattern = /^\/docs(?:\/|$)/;
-const productionUrl = new URL("https://better-auth.com");
+const productionUrl = new URL("https://qodewk.dev");
 const llmsDescription =
 	"The most comprehensive authentication framework for TypeScript";
 const expressionValueSchema = z.object({ value: z.string() });
@@ -155,8 +155,8 @@ Use the documentation version that matches the Qodewk version installed in the p
 
 ## Documentation
 
-- [Current documentation index](https://better-auth.com/docs/llms.txt): All pages for the latest stable release.
-- [Documentation MCP server](https://mcp.better-auth.com/mcp): Search and retrieve Qodewk documentation from MCP-capable clients.
+- [Current documentation index](https://qodewk.dev/docs/llms.txt): All pages for the latest stable release.
+- [Documentation MCP server](https://mcp.qodewk.dev/mcp): Search and retrieve Qodewk documentation from MCP-capable clients.
 
 ## Versions
 
@@ -240,7 +240,7 @@ The Markdown document \`${path}\` does not exist.
 
 ## Find the correct page
 
-- [Current documentation index](https://better-auth.com/docs/llms.txt)
-- [Documentation versions](https://better-auth.com/llms.txt)
-- [Documentation MCP server](https://mcp.better-auth.com/mcp)`;
+- [Current documentation index](https://qodewk.dev/docs/llms.txt)
+- [Documentation versions](https://qodewk.dev/llms.txt)
+- [Documentation MCP server](https://mcp.qodewk.dev/mcp)`;
 }

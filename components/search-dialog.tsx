@@ -61,7 +61,7 @@ export default function CustomSearchDialog(props: SharedProps) {
 	const pathname = usePathname() || "/docs";
 	const version = getVersionFromPathname(pathname);
 	const { search, setSearch, query } = useTypesenseSearch({
-		typesenseCollectionName: "better-auth-docs",
+		typesenseCollectionName: "qodewk-docs",
 		client: typesenseClient!,
 		tag: version.id,
 	});

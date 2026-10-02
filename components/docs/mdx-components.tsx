@@ -41,12 +41,12 @@ export function GenerateSecret() {
 				onClick={() => {
 					const elements = document.querySelectorAll("pre code span.line span");
 					for (let i = 0; i < elements.length; i++) {
-						if (elements[i].textContent === "BETTER_AUTH_SECRET=") {
+						if (elements[i].textContent === "qodewk_SECRET=") {
 							elements[i].textContent =
-								`BETTER_AUTH_SECRET=${generateRandomString(32)}`;
+								`qodewk_SECRET=${generateRandomString(32)}`;
 							setGenerated(true);
 							setTimeout(() => {
-								elements[i].textContent = "BETTER_AUTH_SECRET=";
+								elements[i].textContent = "qodewk_SECRET=";
 								setGenerated(false);
 							}, 5000);
 						}
